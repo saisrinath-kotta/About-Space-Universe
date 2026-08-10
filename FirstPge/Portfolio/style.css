@@ -1,0 +1,70 @@
+body {
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+  font-size: 14px;
+}
+
+.tagline {
+  opacity: 0.9;
+}
+
+.profile-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 4px solid white;
+  transition: 0.3s;
+}
+
+.profile-img:hover {
+  transform: scale(1.06);
+}
+
+nav {
+  background: #0b1e5b;
+  text-align: center;
+  padding: 12px;
+}
+
+nav a {
+  color: white;
+  margin: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  background: white;
+  color: #0b1e5b;
+}
+
+.box {
+  background: white;
+  margin: 25px auto;
+  padding: 22px;
+  border-radius: 12px;
+  width: 85%;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  transition: 0.25s;
+}
+
+.box:hover {
+  transform: translateY(-6px);
+}
+
+footer {
+  background: #0b1e5b;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  margin-top: 30px;
+}
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coin Toss</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: black;
+            color: white;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Click the button to Toss the coin</h2>
+
+<button onclick="tossCoin()">Toss</button>
+
+<div id="result">Result: </div>
+
+<script>
+   function tossCoin() {
+    let randomNumber = Math.random();
+    console.log(randomNumber);
+
+    let result = randomNumber < 0.5 ? "Heads" : "Tails";
+    document.getElementById("result").textContent = "Result: " + result;
+}
+
+</script>
+
+</body>
+</html>

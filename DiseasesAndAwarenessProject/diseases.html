@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+if(localStorage.getItem("theme")==="dark"){
+document.documentElement.classList.add("dark");
+}
+</script>
+
+<title>Disease Information Center</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="bg-pattern"></div>
+
+<nav class="navbar navbar-expand-lg navbar-light custom-nav fixed-top shadow-sm">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold" href="index.html">
+HealthSphere
+</a>
+
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="navMenu">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+<a class="nav-link" href="index.html">Home</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link active" href="#">Diseases</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#">Statistics</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#">Healthy Tips</a>
+</li>
+
+<li class="nav-item ms-2">
+<button id="themeToggle" class="theme-toggle-btn">🌙</button>
+</li>
+
+</ul>
+
+</div>
+</div>
+</nav>
+
+<section class="disease-hero text-center">
+
+<div class="container">
+
+<h1 class="page-title">Disease Information Center</h1>
+
+<p class="page-subtitle">
+Explore major diseases, symptoms, prevention and awareness.
+</p>
+
+<div class="search-box">
+
+<input id="searchInput"
+type="text"
+class="form-control"
+placeholder="Search diseases...">
+
+</div>
+
+</div>
+
+</section>
+
+<section class="container mb-4">
+
+<div class="filter-tabs text-center">
+
+<button class="filter-btn active" data-filter="all">All</button>
+<button class="filter-btn" data-filter="infectious">Infectious</button>
+<button class="filter-btn" data-filter="lifestyle">Lifestyle</button>
+<button class="filter-btn" data-filter="mental">Mental Health</button>
+
+</div>
+
+</section>
+
+<section class="container pb-5">
+
+<div class="row g-4">
+
+<div class="col-lg-4 col-md-6 disease-item" data-category="infectious">
+
+<div class="disease-card">
+
+<div class="disease-icon">🦠</div>
+
+<h5>COVID-19</h5>
+
+<p>Respiratory viral infection affecting lungs.</p>
+
+<a href="#" class="btn btn-primary-custom w-100">
+View Details
+</a>
+
+</div>
+</div>
+
+<div class="col-lg-4 col-md-6 disease-item" data-category="infectious">
+
+<div class="disease-card">
+
+<div class="disease-icon">💉</div>
+
+<h5>Tuberculosis</h5>
+
+<p>Bacterial infection mainly affecting lungs.</p>
+
+<a href="#" class="btn btn-primary-custom w-100">
+View Details
+</a>
+
+</div>
+</div>
+
+<div class="col-lg-4 col-md-6 disease-item" data-category="infectious">
+
+<div class="disease-card">
+
+<div class="disease-icon">🦟</div>
+
+<h5>Malaria</h5>
+
+<p>Parasitic infection spread by mosquitoes.</p>
+
+<a href="#" class="btn btn-primary-custom w-100">
+View Details
+</a>
+
+</div>
+</div>
+
+</div>
+
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

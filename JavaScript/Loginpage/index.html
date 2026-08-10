@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    body{
+        background: linear-gradient(to top,green,skyblue);
+        height: 100vh;
+        text-align: center;
+    }
+    h1{
+        text-align: center;
+        padding: 30px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: bold;
+        font-size: 40px;
+        color: darkblue;
+    }
+    .form{
+        padding: 5px;
+        display: inline-flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    label{
+        font-weight: bold;
+        font-size: 20px;
+        text-align: left;
+    }
+    input{
+        height: 25px;
+        border-radius: 2px;
+        border: 1px solid lightgray;
+    }
+    .btn{
+        display: flex;
+        flex-direction: row;
+        gap: 50px;
+        padding: 10px;
+        justify-content: center;
+        margin: 10px;
+    }
+    button{
+        width: 60px;
+        height:30px;
+        border-radius: 5px;
+        background-color:rgb(217, 124, 9);
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: bold;
+        font-size: 12px;
+        color: white;
+        transition: all 0.3s ease;
+   }
+   button:hover{
+    transform: scale(1.2);
+    box-shadow: 2px 2px 4px gray;
+   }
+    </style>
+</head>
+<body>
+    <h1>Login</h1>
+    <div class = "form">
+    <label>Username</label>
+    <input type="text" id="username">
+    <label>Password</label>
+    <input type="password" id="password">
+    </div>
+    <div class = "btn">
+    <button id="login">Login</button>
+    <button id="cancel">Cancel</button>
+    </div>
+    <p id="message"></p>
+<script>
+    const userName = document.getElementById("username");
+    const passWord = document.getElementById("password");
+    const loginBtn = document.getElementById("login");
+    const cancelBtn = document.getElementById("cancel");
+    const resultMsg = document.getElementById("message");
+    let uName = "saisrinath";
+    let pass = "pass@123";
+    loginBtn.onclick = function(){
+
+        if(userName.value === "" || passWord.value === ""){
+            resultMsg.textContent = "Enter Complete Details to login";
+        }else{
+        if(userName.value === uName && passWord.value === pass){
+            resultMsg.textContent="Login Successfull";
+        }
+        else{
+            resultMsg.textContent = "Unsuccessfull";
+        }
+    }
+    }
+
+    cancelBtn.onclick = function(){
+        alert("login Cancelled");
+    }
+    
+</script>
+</body>
+</html>

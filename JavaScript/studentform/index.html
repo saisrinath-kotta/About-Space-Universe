@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Form Validation</title>
+  <style>
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+    .success {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="myForm">
+    <h2>Registration Form</h2>
+
+    <!-- Name Field -->
+    <label>Name:</label><br>
+    <input type="text" id="name">
+    <p id="nameError" class="error"></p>
+
+    <!-- Gender Dropdown -->
+    <label>Gender:</label><br>
+    <select id="gender">
+      <option value="">Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+    <p id="genderMessage"></p>
+
+    <br><br>
+    <button type="submit">Submit</button>
+
+    <p id="finalMessage"></p>
+  </form>
+
+<script>
+
+// Select elements
+const nameInput = document.querySelector("#name");
+const nameError = document.querySelector("#nameError");
+const gender = document.querySelector("#gender");
+const genderMessage = document.querySelector("#genderMessage");
+const form = document.querySelector("#myForm");
+const finalMessage = document.querySelector("#finalMessage");
+
+
+//  INPUT EVENT (Real-time validation)
+nameInput.addEventListener("input", function() {
+  if (nameInput.value.length < 3) {
+    nameError.textContent = "Name must be at least 3 characters";
+  } else {
+    nameError.textContent = "";
+  }
+});
+
+
+// CHANGE EVENT (Dropdown selection)
+gender.addEventListener("change", function() {
+  genderMessage.textContent = "You selected: " + gender.value;
+  genderMessage.classList.add("success");
+});
+
+
+//  SUBMIT EVENT (Final validation)
+form.addEventListener("submit", function(event) {
+
+  event.preventDefault(); // stop page reload
+
+  if (nameInput.value.length < 3 || gender.value === "") {
+    finalMessage.textContent = "Please fill all fields correctly!";
+    finalMessage.style.color = "red";
+  } else {
+    finalMessage.textContent = "Form submitted successfully!";
+    finalMessage.style.color = "green";
+  }
+
+});
+
+</script>
+
+</body>
+</html>

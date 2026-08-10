@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediAware — Disease Awareness Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050b14;
+    --surface: #0c1929;
+    --card: #0f2035;
+    --accent-red: #e63946;
+    --accent-blue: #4cc9f0;
+    --accent-green: #06d6a0;
+    --accent-purple: #b388ff;
+    --accent-orange: #ff9f1c;
+    --accent-pink: #f72585;
+    --text: #e8edf4;
+    --muted: #7a8fa6;
+    --border: rgba(76,201,240,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* BACKGROUND */
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(76,201,240,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(76,201,240,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .bg-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb1 { width: 600px; height: 600px; background: #e63946; top: -200px; left: -200px; }
+  .orb2 { width: 500px; height: 500px; background: #4cc9f0; bottom: -100px; right: -100px; }
+  .orb3 { width: 400px; height: 400px; background: #06d6a0; top: 40%; left: 30%; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 60px;
+    background: rgba(5,11,20,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--accent-blue);
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--accent-red); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent-blue); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 140px 40px 80px;
+  }
+
+  .hero-content { max-width: 900px; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(230,57,70,0.15);
+    border: 1px solid rgba(230,57,70,0.4);
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-size: 13px;
+    color: var(--accent-red);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .hero-badge::before {
+    content: '●';
+    animation: pulse 2s infinite;
+    color: var(--accent-red);
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 8vw, 100px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -3px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero h1 .line1 { color: #fff; }
+  .hero h1 .line2 {
+    background: linear-gradient(90deg, var(--accent-red), var(--accent-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero h1 .line3 { color: var(--accent-blue); }
+
+  .hero-desc {
+    font-size: 18px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto 48px;
+    font-weight: 300;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    animation: fadeUp 0.8s 0.6s ease both;
+  }
+
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #fff;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  /* CATEGORY FILTER */
+  .filter-section {
+    position: relative; z-index: 1;
+    padding: 20px 60px 40px;
+    text-align: center;
+  }
+
+  .filter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .filter-btn {
+    padding: 10px 24px;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: #000;
+    transform: translateY(-2px);
+  }
+
+  /* SECTION HEADERS */
+  .section {
+    position: relative; z-index: 1;
+    padding: 60px 60px 100px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 50px;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .section-line.right {
+    background: linear-gradient(270deg, var(--border), transparent);
+  }
+
+  /* DISEASE GRID */
+  .disease-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 24px;
+  }
+
+  .disease-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .disease-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+  }
+
+  .card-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+
+  .card-header {
+    padding: 28px 28px 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .card-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .card-badges { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+
+  .badge {
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-critical { background: rgba(230,57,70,0.2); color: #e63946; border: 1px solid rgba(230,57,70,0.3); }
+  .badge-high { background: rgba(255,159,28,0.2); color: #ff9f1c; border: 1px solid rgba(255,159,28,0.3); }
+  .badge-moderate { background: rgba(6,214,160,0.2); color: #06d6a0; border: 1px solid rgba(6,214,160,0.3); }
+
+  .card-body { padding: 20px 28px 28px; }
+
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .card-category {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .card-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .mini-stat {
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .mini-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 4px; }
+  .mini-stat-val { font-size: 15px; font-weight: 600; color: #fff; }
+
+  .card-symptoms {
+    margin-bottom: 20px;
+  }
+  .symptoms-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .symptom-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .symptom-tag {
+    padding: 5px 12px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50px;
+    font-size: 12px;
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .card-prevention {
+    background: rgba(6,214,160,0.07);
+    border: 1px solid rgba(6,214,160,0.2);
+    border-radius: 12px;
+    padding: 14px;
+  }
+  .prevention-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent-green);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .prevention-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* AWARENESS RIBBON STRIP */
+  .ribbon-strip {
+    position: relative; z-index: 1;
+    overflow: hidden;
+    padding: 30px 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  .ribbon-track {
+    display: flex;
+    gap: 60px;
+    animation: marquee 30s linear infinite;
+    white-space: nowrap;
+  }
+
+  .ribbon-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .ribbon-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* FOOTER */
+  footer {
+    position: relative; z-index: 1;
+    padding: 60px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--accent-blue);
+    margin-bottom: 16px;
+  }
+  .footer-logo span { color: var(--accent-red); }
+
+  .footer-text { color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 500px; margin: 0 auto 32px; }
+
+  .footer-note {
+    font-size: 12px;
+    color: rgba(122,143,166,0.5);
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    margin-top: 24px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* SCROLL ANIMATION */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* CATEGORY HEADINGS */
+  .cat-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .cat-sub {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 120px 24px 60px; }
+    .hero-stats { gap: 30px; }
+    .filter-section, .section { padding: 40px 24px; }
+    .disease-grid { grid-template-columns: 1fr; }
+    footer { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="bg-orb orb3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Medi<span>Aware</span></div>
+  <ul class="nav-links">
+    <li><a href="#infectious">Infectious</a></li>
+    <li><a href="#chronic">Chronic</a></li>
+    <li><a href="#mental">Mental Health</a></li>
+    <li><a href="#genetic">Genetic</a></li>
+    <li><a href="#cancer">Cancer</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Global Health Awareness Initiative</div>
+    <h1>
+      <div class="line1">Know.</div>
+      <div class="line2">Prevent.</div>
+      <div class="line3">Survive.</div>
+    </h1>
+    <p class="hero-desc">A comprehensive guide to understanding the world's most significant diseases — their causes, symptoms, and how to protect yourself and your loved ones.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">20+</div>
+        <div class="stat-label">Diseases Covered</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Evidence Based</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER -->
+<div class="filter-section">
+  <div class="filter-title">Filter by Category</div>
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterCards('all')">All Diseases</button>
+    <button class="filter-btn" onclick="filterCards('infectious')">🦠 Infectious</button>
+    <button class="filter-btn" onclick="filterCards('chronic')">❤️ Chronic</button>
+    <button class="filter-btn" onclick="filterCards('mental')">🧠 Mental Health</button>
+    <button class="filter-btn" onclick="filterCards('genetic')">🧬 Genetic</button>
+    <button class="filter-btn" onclick="filterCards('cancer')">🎗️ Cancer</button>
+  </div>
+</div>
+
+<!-- RIBBON -->
+<div class="ribbon-strip">
+  <div class="ribbon-track" id="ribbonTrack"></div>
+</div>
+
+<!-- INFECTIOUS DISEASES -->
+<section class="section" id="infectious">
+  <div class="section-header reveal">
+    <div class="section-line"></div>
+    <div class="section-title">🦠 Infectious Diseases</div>
+    <div class="section-line right"></div>
+  </div>
+  <div class="cat-heading reveal" style="color:#4cc9f0">Infectious Diseases</div>
+  <div class="cat-sub reveal">Caused by pathogens — bacteria, viruses, fungi, or parasites — that spread from person to person or from the environment.</div>
+  <div class="disease-grid" id="infectiousGrid"></div>
+</section>
+
+<!-- CHRONIC DISEASES -->
+<section class="section" id="chronic">
+  <div class="section-header reveal">
+    <div class="section-line"></div>
+    <div class="section-title">❤️ Chronic Diseases</div>
+    <div class="section-line right"></div>
+  </div>
+  <div class="cat-heading reveal" style="color:#e63946">Chronic Diseases</div>
+  <div class="cat-sub reveal">Long-lasting conditions that persist for a year or more, requiring ongoing medical care or limiting daily activities.</div>
+  <div class="disease-grid" id="chronicGrid"></div>
+</section>
+
+<!-- MENTAL HEALTH -->
+<section class="section" id="mental">
+  <div class="section-header reveal">
+    <div class="section-line"></div>
+    <div class="section-title">🧠 Mental Health Disorders</div>
+    <div class="section-line right"></div>
+  </div>
+  <div class="cat-heading reveal" style="color:#b388ff">Mental Health Disorders</div>
+  <div class="cat-sub reveal">Conditions affecting mood, thinking, and behavior, significantly impacting a person's daily life and relationships.</div>
+  <div class="disease-grid" id="mentalGrid"></div>
+</section>
+
+<!-- GENETIC DISEASES -->
+<section class="section" id="genetic">
+  <div class="section-header reveal">
+    <div class="section-line"></div>
+    <div class="section-title">🧬 Genetic Disorders</div>
+    <div class="section-line right"></div>
+  </div>
+  <div class="cat-heading reveal" style="color:#06d6a0">Genetic Disorders</div>
+  <div class="cat-sub reveal">Caused by abnormalities in genes or chromosomes, often inherited or arising from mutations during development.</div>
+  <div class="disease-grid" id="geneticGrid"></div>
+</section>
+
+<!-- CANCER -->
+<section class="section" id="cancer">
+  <div class="section-header reveal">
+    <div class="section-line"></div>
+    <div class="section-title">🎗️ Cancer Types</div>
+    <div class="section-line right"></div>
+  </div>
+  <div class="cat-heading reveal" style="color:#ff9f1c">Cancer</div>
+  <div class="cat-sub reveal">A group of diseases involving abnormal cell growth with the potential to invade or spread to other parts of the body.</div>
+  <div class="disease-grid" id="cancerGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Medi<span>Aware</span></div>
+  <div class="footer-text">Empowering people with knowledge to understand, prevent, and manage diseases. Early awareness saves lives.</div>
+  <div class="footer-note">⚠️ This website is for educational purposes only. Always consult a qualified healthcare professional for medical advice, diagnosis, or treatment.</div>
+</footer>
+
+<script>
+const diseases = {
+  infectious: [
+    {
+      name: "COVID-19",
+      category: "Viral Infection",
+      icon: "🦠",
+      color: "#4cc9f0",
+      severity: "critical",
+      affected: "700M+ globally",
+      mortality: "~1–3%",
+      desc: "A respiratory illness caused by the SARS-CoV-2 coronavirus. Spreads via respiratory droplets and aerosols. Can cause mild to severe illness.",
+      symptoms: ["Fever", "Dry Cough", "Fatigue", "Loss of smell", "Shortness of breath", "Body aches"],
+      prevention: "Vaccination, wearing masks, hand hygiene, and maintaining social distance are key prevention strategies."
+    },
+    {
+      name: "Malaria",
+      category: "Parasitic Infection",
+      icon: "🦟",
+      color: "#06d6a0",
+      severity: "critical",
+      affected: "247M per year",
+      mortality: "~600K deaths/yr",
+      desc: "Caused by Plasmodium parasites transmitted through bites of infected female Anopheles mosquitoes. Prevalent in tropical regions.",
+      symptoms: ["High fever", "Chills", "Sweating", "Headache", "Nausea", "Vomiting"],
+      prevention: "Use of insecticide-treated bed nets, antimalarial medications, indoor residual spraying, and eliminating stagnant water."
+    },
+    {
+      name: "Tuberculosis (TB)",
+      category: "Bacterial Infection",
+      icon: "🫁",
+      color: "#ff9f1c",
+      severity: "critical",
+      affected: "10M per year",
+      mortality: "~1.6M deaths/yr",
+      desc: "A bacterial disease caused by Mycobacterium tuberculosis, primarily affecting the lungs. Spreads through the air when infected individuals cough or sneeze.",
+      symptoms: ["Persistent cough", "Blood in sputum", "Chest pain", "Weight loss", "Night sweats", "Fatigue"],
+      prevention: "BCG vaccination, early detection, completing full TB treatment course, and good ventilation in living spaces."
+    },
+    {
+      name: "HIV/AIDS",
+      category: "Viral Infection",
+      icon: "🔴",
+      color: "#e63946",
+      severity: "critical",
+      affected: "38M+ living with HIV",
+      mortality: "~650K deaths/yr",
+      desc: "HIV attacks the immune system. Without treatment, it can progress to AIDS. Transmitted through blood, sexual contact, and mother-to-child.",
+      symptoms: ["Flu-like illness (early)", "Swollen glands", "Rashes", "Fatigue", "Weight loss", "Recurring infections"],
+      prevention: "Safe sex practices, using sterile needles, PrEP medication, antiretroviral therapy (ART), and regular testing."
+    },
+    {
+      name: "Dengue Fever",
+      category: "Viral Infection",
+      icon: "🩸",
+      color: "#f72585",
+      severity: "high",
+      affected: "400M per year",
+      mortality: "~40K deaths/yr",
+      desc: "A mosquito-borne viral disease caused by the dengue virus and transmitted by Aedes mosquitoes. Endemic in over 100 countries.",
+      symptoms: ["High fever", "Severe headache", "Eye pain", "Muscle & joint pain", "Rash", "Mild bleeding"],
+      prevention: "Eliminate mosquito breeding sites, use repellents, wear protective clothing, and support vector control programs."
+    }
+  ],
+  chronic: [
+    {
+      name: "Diabetes",
+      category: "Metabolic Disorder",
+      icon: "🩺",
+      color: "#ff9f1c",
+      severity: "high",
+      affected: "537M worldwide",
+      mortality: "~6.7M deaths/yr",
+      desc: "A chronic condition affecting how the body processes blood sugar (glucose). Type 1 is autoimmune; Type 2 is largely lifestyle-related.",
+      symptoms: ["Frequent urination", "Increased thirst", "Blurred vision", "Slow healing", "Fatigue", "Unexplained weight loss"],
+      prevention: "Maintain healthy weight, eat a balanced diet, exercise regularly, avoid smoking, and monitor blood sugar levels."
+    },
+    {
+      name: "Hypertension",
+      category: "Cardiovascular",
+      icon: "❤️",
+      color: "#e63946",
+      severity: "high",
+      affected: "1.28B worldwide",
+      mortality: "Major CVD risk",
+      desc: "Also known as high blood pressure, it's a condition where blood pressure in the arteries is persistently elevated, straining the heart and vessels.",
+      symptoms: ["Often asymptomatic", "Severe headaches", "Nosebleeds", "Chest pain", "Vision changes", "Dizziness"],
+      prevention: "Reduce salt intake, maintain healthy weight, exercise, limit alcohol, quit smoking, manage stress, and monitor BP regularly."
+    },
+    {
+      name: "Asthma",
+      category: "Respiratory Disorder",
+      icon: "💨",
+      color: "#4cc9f0",
+      severity: "moderate",
+      affected: "300M worldwide",
+      mortality: "~455K deaths/yr",
+      desc: "A chronic disease affecting airways in the lungs, causing them to inflame and narrow. Triggers include allergens, exercise, and cold air.",
+      symptoms: ["Wheezing", "Shortness of breath", "Chest tightness", "Persistent cough", "Sleep disruption"],
+      prevention: "Avoid known triggers, use prescribed inhalers, maintain clean indoor air, and get regular respiratory checkups."
+    },
+    {
+      name: "Arthritis",
+      category: "Musculoskeletal",
+      icon: "🦴",
+      color: "#b388ff",
+      severity: "moderate",
+      affected: "350M worldwide",
+      mortality: "Low mortality",
+      desc: "Inflammation of one or more joints, causing pain and stiffness. Most common types: osteoarthritis (wear & tear) and rheumatoid arthritis (autoimmune).",
+      symptoms: ["Joint pain", "Stiffness", "Swelling", "Reduced motion range", "Warmth around joints"],
+      prevention: "Maintain healthy weight, stay active, protect joints during activities, eat anti-inflammatory foods, and avoid smoking."
+    }
+  ],
+  mental: [
+    {
+      name: "Depression",
+      category: "Mood Disorder",
+      icon: "🧠",
+      color: "#b388ff",
+      severity: "high",
+      affected: "280M worldwide",
+      mortality: "Suicide risk",
+      desc: "A mood disorder causing persistent feelings of sadness and loss of interest. It affects how a person thinks, feels, and handles daily activities.",
+      symptoms: ["Persistent sadness", "Hopelessness", "Loss of interest", "Fatigue", "Sleep changes", "Suicidal thoughts"],
+      prevention: "Build strong social connections, exercise regularly, seek therapy early, practice mindfulness, and reduce substance use."
+    },
+    {
+      name: "Anxiety Disorders",
+      category: "Mental Health",
+      icon: "😰",
+      color: "#4cc9f0",
+      severity: "high",
+      affected: "301M worldwide",
+      mortality: "Low mortality",
+      desc: "A group of mental health disorders characterized by significant feelings of anxiety and fear. Includes generalized anxiety, panic disorder, and phobias.",
+      symptoms: ["Excessive worry", "Restlessness", "Rapid heartbeat", "Sweating", "Trembling", "Difficulty concentrating"],
+      prevention: "Regular exercise, adequate sleep, cognitive behavioral therapy (CBT), stress management techniques, and limiting caffeine."
+    },
+    {
+      name: "Alzheimer's Disease",
+      category: "Neurodegenerative",
+      icon: "🔵",
+      color: "#06d6a0",
+      severity: "critical",
+      affected: "55M worldwide",
+      mortality: "Progressive fatal",
+      desc: "The most common cause of dementia, causing progressive decline in memory, language, problem-solving, and other cognitive functions.",
+      symptoms: ["Memory loss", "Confusion", "Language problems", "Mood changes", "Difficulty with daily tasks", "Disorientation"],
+      prevention: "Mental stimulation, physical exercise, healthy diet, social engagement, quality sleep, and managing cardiovascular risk factors."
+    },
+    {
+      name: "Schizophrenia",
+      category: "Psychotic Disorder",
+      icon: "🌀",
+      color: "#f72585",
+      severity: "high",
+      affected: "24M worldwide",
+      mortality: "Reduced life expectancy",
+      desc: "A serious mental disorder where people interpret reality abnormally, experiencing hallucinations, delusions, and disordered thinking.",
+      symptoms: ["Hallucinations", "Delusions", "Disorganized speech", "Flat affect", "Social withdrawal", "Cognitive difficulties"],
+      prevention: "Early intervention, medication adherence, family support, avoiding drug use, stress management, and regular psychiatric care."
+    }
+  ],
+  genetic: [
+    {
+      name: "Down Syndrome",
+      category: "Chromosomal Disorder",
+      icon: "🧬",
+      color: "#06d6a0",
+      severity: "moderate",
+      affected: "1 in 700 births",
+      mortality: "Reduced lifespan",
+      desc: "A genetic condition caused by an extra copy of chromosome 21 (trisomy 21), causing developmental and intellectual delays.",
+      symptoms: ["Intellectual disability", "Flat facial features", "Low muscle tone", "Heart defects", "Short stature"],
+      prevention: "Prenatal screening and genetic counseling for expecting parents. No known prevention for the condition itself."
+    },
+    {
+      name: "Sickle Cell Disease",
+      category: "Blood Disorder",
+      icon: "🩸",
+      color: "#e63946",
+      severity: "high",
+      affected: "8M worldwide",
+      mortality: "Reduces lifespan",
+      desc: "An inherited blood disorder where red blood cells are abnormally shaped (sickle-shaped), blocking blood flow and causing pain and organ damage.",
+      symptoms: ["Episodes of pain", "Anemia", "Swelling of hands/feet", "Frequent infections", "Delayed growth", "Vision problems"],
+      prevention: "Genetic counseling before pregnancy, newborn screening, and managing symptoms with hydroxyurea and other treatments."
+    },
+    {
+      name: "Cystic Fibrosis",
+      category: "Genetic Disorder",
+      icon: "🫁",
+      color: "#4cc9f0",
+      severity: "high",
+      affected: "100K worldwide",
+      mortality: "Median ~44 yrs",
+      desc: "A hereditary disease that affects the lungs and digestive system. A defective gene causes mucus, sweat, and digestive juices to become thick and sticky.",
+      symptoms: ["Persistent cough", "Frequent lung infections", "Poor growth", "Salty skin", "Bowel obstruction", "Wheezing"],
+      prevention: "Carrier testing and genetic counseling. Disease management with CFTR modulators has greatly improved outcomes."
+    }
+  ],
+  cancer: [
+    {
+      name: "Breast Cancer",
+      category: "Oncology",
+      icon: "🎗️",
+      color: "#f72585",
+      severity: "critical",
+      affected: "2.3M cases/yr",
+      mortality: "~685K deaths/yr",
+      desc: "Cancer that forms in the cells of the breasts. It is the most common cancer diagnosed in women worldwide, though it can occur in men too.",
+      symptoms: ["Lump in breast", "Change in shape/size", "Nipple discharge", "Skin dimpling", "Nipple inversion", "Swollen lymph nodes"],
+      prevention: "Regular mammograms, self-examinations, maintaining healthy weight, limiting alcohol, breastfeeding, and genetic testing for high-risk individuals."
+    },
+    {
+      name: "Lung Cancer",
+      category: "Oncology",
+      icon: "🫁",
+      color: "#ff9f1c",
+      severity: "critical",
+      affected: "2.2M cases/yr",
+      mortality: "~1.8M deaths/yr",
+      desc: "The leading cause of cancer deaths worldwide. Most cases are caused by smoking, though non-smokers can also develop lung cancer.",
+      symptoms: ["Persistent cough", "Coughing up blood", "Chest pain", "Shortness of breath", "Unexplained weight loss", "Hoarseness"],
+      prevention: "Don't smoke, avoid secondhand smoke, test for radon, avoid carcinogens, eat a healthy diet, and get regular screenings if high risk."
+    },
+    {
+      name: "Colorectal Cancer",
+      category: "Oncology",
+      icon: "🔶",
+      color: "#06d6a0",
+      severity: "high",
+      affected: "1.93M cases/yr",
+      mortality: "~935K deaths/yr",
+      desc: "Cancer of the colon or rectum. Often starts as polyps that grow on the inner lining of the colon. Highly treatable when detected early.",
+      symptoms: ["Change in bowel habits", "Blood in stool", "Abdominal pain", "Unexplained weight loss", "Weakness/fatigue", "Feeling bowel never empty"],
+      prevention: "Regular colonoscopies after age 45, high-fiber diet, limit red meat, exercise, maintain healthy weight, and don't smoke."
+    },
+    {
+      name: "Leukemia",
+      category: "Blood Cancer",
+      icon: "🩸",
+      color: "#b388ff",
+      severity: "critical",
+      affected: "474K cases/yr",
+      mortality: "~311K deaths/yr",
+      desc: "Cancer of the blood and bone marrow, characterized by the rapid growth of abnormal blood cells. Classified as acute or chronic and by cell type.",
+      symptoms: ["Fatigue", "Frequent infections", "Easy bruising", "Bleeding gums", "Swollen lymph nodes", "Bone pain"],
+      prevention: "Avoid radiation exposure, limit benzene contact, don't smoke. Genetic predisposition plays a major role, so genetic counseling may be helpful."
+    }
+  ]
+};
+
+function getBadgeClass(severity) {
+  if (severity === 'critical') return 'badge-critical';
+  if (severity === 'high') return 'badge-high';
+  return 'badge-moderate';
+}
+function getBadgeLabel(severity) {
+  if (severity === 'critical') return 'Critical';
+  if (severity === 'high') return 'High Risk';
+  return 'Moderate';
+}
+
+function createCard(d, category) {
+  return `
+    <div class="disease-card reveal" data-category="${category}">
+      <div class="card-accent" style="background: linear-gradient(90deg, ${d.color}, transparent)"></div>
+      <div class="card-header">
+        <div class="card-icon" style="background: ${d.color}20; color: ${d.color}">${d.icon}</div>
+        <div class="card-badges">
+          <span class="badge ${getBadgeClass(d.severity)}">${getBadgeLabel(d.severity)}</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${d.name}</div>
+        <div class="card-category" style="color:${d.color}">${d.category}</div>
+        <div class="card-desc">${d.desc}</div>
+        <div class="card-stats">
+          <div class="mini-stat">
+            <div class="mini-stat-label">People Affected</div>
+            <div class="mini-stat-val">${d.affected}</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label">Mortality</div>
+            <div class="mini-stat-val">${d.mortality}</div>
+          </div>
+        </div>
+        <div class="card-symptoms">
+          <div class="symptoms-label">Key Symptoms</div>
+          <div class="symptom-tags">${d.symptoms.map(s => `<span class="symptom-tag">${s}</span>`).join('')}</div>
+        </div>
+        <div class="card-prevention">
+          <div class="prevention-label">✅ Prevention</div>
+          <div class="prevention-text">${d.prevention}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Render cards
+document.getElementById('infectiousGrid').innerHTML = diseases.infectious.map(d => createCard(d,'infectious')).join('');
+document.getElementById('chronicGrid').innerHTML = diseases.chronic.map(d => createCard(d,'chronic')).join('');
+document.getElementById('mentalGrid').innerHTML = diseases.mental.map(d => createCard(d,'mental')).join('');
+document.getElementById('geneticGrid').innerHTML = diseases.genetic.map(d => createCard(d,'genetic')).join('');
+document.getElementById('cancerGrid').innerHTML = diseases.cancer.map(d => createCard(d,'cancer')).join('');
+
+// Ribbon
+const ribbonItems = [
+  {label: 'COVID-19 Awareness', color: '#4cc9f0'},
+  {label: 'Cancer Prevention', color: '#f72585'},
+  {label: 'World Heart Day', color: '#e63946'},
+  {label: 'Mental Health Month', color: '#b388ff'},
+  {label: 'World TB Day', color: '#ff9f1c'},
+  {label: 'World AIDS Day', color: '#e63946'},
+  {label: 'Malaria No More', color: '#06d6a0'},
+  {label: 'Diabetes Awareness', color: '#ff9f1c'},
+  {label: 'Alzheimer\'s Month', color: '#4cc9f0'},
+  {label: 'Breast Cancer Awareness', color: '#f72585'},
+];
+const items = [...ribbonItems, ...ribbonItems];
+document.getElementById('ribbonTrack').innerHTML = items.map(i =>
+  `<div class="ribbon-item"><div class="ribbon-dot" style="background:${i.color}"></div>${i.label}</div>`
+).join('');
+
+// Filter
+function filterCards(cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+
+  const sections = ['infectious','chronic','mental','genetic','cancer'];
+  sections.forEach(sec => {
+    const section = document.getElementById(sec);
+    if (cat === 'all' || cat === sec) {
+      section.style.display = '';
+    } else {
+      section.style.display = 'none';
+    }
+  });
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 60);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

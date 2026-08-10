@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Number Guessing Game</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    text-align:center;
+    background:linear-gradient(to right,skyblue,violet);
+}
+
+.container{
+    margin-top:100px;
+}
+
+input{
+    padding:10px;
+    font-size:16px;
+}
+
+button{
+    padding:10px 20px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+#result{
+    margin-top:20px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Number Guessing Game 🎯</h2>
+
+<p>Guess a number between 1 and 100</p>
+
+<input type="number" id="guess">
+
+<button onclick="checkGuess()">Submit</button>
+
+<p id="result"></p>
+
+</div>
+
+<script>
+
+let randomNumber = Math.floor(Math.random() * 100) + 1;
+console.log(randomNumber);
+
+function checkGuess(){
+
+let userGuess = document.getElementById("guess").value;
+
+if(userGuess == randomNumber){
+
+document.getElementById("result").textContent = "🎉 Correct! You guessed it.";
+
+}
+
+else if(userGuess > randomNumber){
+
+document.getElementById("result").textContent = "📉 Too High! Try again.";
+
+}
+
+else{
+
+document.getElementById("result").textContent = "📈 Too Low! Try again.";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

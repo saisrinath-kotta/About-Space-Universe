@@ -1,0 +1,700 @@
+/* ============================= */
+/* RESET */
+/* ============================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+/* ============================= */
+/* GLOBAL */
+/* ============================= */
+
+body{
+font-family:'Lato',sans-serif;
+background:#f6fbff;
+color:#1a2533;
+transition:0.3s;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+/* ============================= */
+/* NAVBAR */
+/* ============================= */
+
+.top-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:12px 25px;
+background:#f6fbff;
+border-bottom:2px solid #cfe4f3;
+position:sticky;
+top:0;
+z-index:1000;
+box-shadow:0 2px 8px rgba(0,0,0,0.06);
+}
+
+.logo{
+font-size:1.6rem;
+font-weight:bold;
+color:#2a8ccf;
+text-decoration:none;
+white-space:nowrap;
+}
+
+.nav-right{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+/* SEARCH BAR */
+
+.search-bar{
+display:flex;
+align-items:center;
+background:#eaf4fb;
+border:1px solid #cfe4f3;
+padding:5px 10px;
+border-radius:20px;
+}
+
+.search-bar input{
+border:none;
+outline:none;
+background:transparent;
+font-size:13px;
+width:140px;
+color:#1a2533;
+}
+
+/* DARK BUTTON */
+
+.theme-toggle{
+background:#eaf4fb;
+border:1px solid #cfe4f3;
+color:#1a2533;
+padding:6px 10px;
+border-radius:6px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.theme-toggle:hover{
+background:#2a8ccf;
+color:white;
+}
+
+/* MARQUEE */
+
+.health-marquee{
+flex:1;
+margin:0 10px;
+background:#2a8ccf;
+color:white;
+padding:6px 10px;
+border-radius:6px;
+font-weight:bold;
+font-size:13px;
+}
+
+/* ============================= */
+/* HERO */
+/* ============================= */
+
+.hero{
+text-align:center;
+padding:90px 20px;
+background:#eaf4fb;
+border-bottom:2px solid #cfe4f3;
+}
+
+.hero h1{
+font-size:2.6rem;
+font-weight:700;
+}
+
+.hero span{
+color:#2a8ccf;
+font-weight:700;
+}
+
+.hero p{
+font-size:1.1rem;
+color:#4a6a85;
+margin-top:10px;
+}
+
+/* ============================= */
+/* DISEASE GRID */
+/* ============================= */
+
+.diseases-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:40px;
+margin-top:20px;
+}
+
+.disease-card{
+background:#ffffff;
+border:1px solid #cfe4f3;
+border-radius:12px;
+padding:20px;
+text-decoration:none;
+color:#1a2533;
+transition:0.3s;
+box-shadow:0 3px 10px rgba(0,0,0,0.06);
+}
+
+.disease-card:hover{
+transform:translateY(-6px);
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* ============================= */
+/* BOTTOM NAV */
+/* ============================= */
+
+.bottom-nav{
+display:flex;
+justify-content:center;
+gap:40px;
+padding:18px;
+
+background:#ffffff;              /* clear background */
+
+border-top:2px solid #cfe4f3;
+border-bottom:2px solid #cfe4f3;
+
+box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+
+.bottom-nav a{
+text-decoration:none;
+font-weight:600;
+color:#1a2533;
+
+padding:6px 10px;
+border-radius:6px;
+
+transition:0.3s;
+}
+
+/* hover effect */
+
+.bottom-nav a:hover{
+color:#ffffff;
+background:#2a8ccf;
+}
+
+/* ============================= */
+/* DARK MODE NAV */
+/* ============================= */
+
+[data-theme="dark"] .bottom-nav{
+background:#112236;
+border-top:2px solid #1f4060;
+border-bottom:2px solid #1f4060;
+}
+
+[data-theme="dark"] .bottom-nav a{
+color:#e8f4fd;
+}
+
+[data-theme="dark"] .bottom-nav a:hover{
+background:#4db6f0;
+color:#0d1b2a;
+}
+/* ============================= */
+/* INFO SECTIONS */
+/* ============================= */
+
+.info-section{
+padding:60px 40px;
+text-align:center;
+max-width:900px;
+margin:auto;
+}
+
+.info-section h2{
+color:#2a8ccf;
+margin-bottom:20px;
+letter-spacing:0.5px;
+}
+
+/* ============================= */
+/* INFO GRID */
+/* ============================= */
+
+.info-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:30px;
+margin-top:30px;
+}
+
+.info-card{
+background:#ffffff;
+padding:25px;
+border-radius:10px;
+border:1px solid #cfe4f3;
+transition:0.3s;
+text-decoration:none;
+color:#1a2533;
+display:block;
+}
+
+.info-card img{
+width:60px;
+height:60px;
+object-fit:contain;
+margin-bottom:10px;
+}
+
+.info-card:hover{
+transform:translateY(-8px);
+box-shadow:0 8px 18px rgba(0,0,0,0.2);
+}
+
+/* ============================= */
+/* DISEASE HEADER */
+/* ============================= */
+
+.disease-header{
+text-align:center;
+padding:70px 20px 50px 20px;
+background:#eaf4fb;
+border-bottom:2px solid #cfe4f3;
+}
+
+.disease-title{
+font-size:3rem;
+font-family:'Merriweather',serif;
+color:#2a8ccf;
+margin-bottom:10px;
+}
+
+.disease-subtitle{
+font-size:1.1rem;
+opacity:0.85;
+}
+
+/* ============================= */
+/* SECTION */
+/* ============================= */
+
+.section{
+padding:60px 20px;
+text-align:center;
+background:#f6fbff;
+}
+
+.section:nth-child(even){
+background:#eaf4fb;
+}
+
+.section h2{
+font-size:2rem;
+margin-bottom:35px;
+color:#2a8ccf;
+}
+
+/* ============================= */
+/* CARD GRID */
+/* ============================= */
+
+.card-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+max-width:900px;
+margin:auto;
+}
+
+.card{
+background:#ffffff;
+padding:22px;
+border-radius:12px;
+border:1px solid #cfe4f3;
+font-weight:600;
+transition:0.3s;
+box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 10px 20px rgba(0,0,0,0.25);
+}
+
+/* ============================= */
+/* STATS */
+/* ============================= */
+
+.stats-cards{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:25px;
+margin-top:20px;
+}
+
+.stat{
+background:#ffffff;
+padding:25px;
+border-radius:10px;
+border:1px solid #cfe4f3;
+min-width:180px;
+}
+
+.stat h3{
+color:#2a8ccf;
+font-size:1.8rem;
+margin-bottom:8px;
+}
+
+/* ============================= */
+/* GUIDE MESSAGE */
+/* ============================= */
+
+.guide-message{
+text-align:center;
+background:#9cb4ca;
+color:#2a4d6f;
+padding:18px 20px;
+margin:30px auto;
+max-width:800px;
+border-radius:10px;
+border-left:5px solid #2a8ccf;
+font-size:15px;
+font-weight:500;
+box-shadow:0 3px 8px rgba(0,0,0,0.05);
+}
+
+/* ============================= */
+/* FOOTER */
+/* ============================= */
+
+.footer{
+background:#1f2a38;
+color:#e8f4fd;
+text-align:center;
+padding:20px;
+font-size:14px;
+margin-top:40px;
+border-top:3px solid #2a8ccf;
+}
+
+/* ============================= */
+/* DARK THEME */
+/* ============================= */
+
+[data-theme="dark"] body{
+background:#0d1b2a;
+color:#e8f4fd;
+}
+
+[data-theme="dark"] .top-header{
+background:#0d1b2a;
+border-bottom:2px solid #1f4060;
+}
+
+[data-theme="dark"] .search-bar{
+background:#112236;
+border:1px solid #1f4060;
+}
+
+[data-theme="dark"] .search-bar input{
+color:#e8f4fd;
+}
+
+[data-theme="dark"] .hero{
+background:#112236;
+border-bottom:2px solid #1f4060;
+}
+
+[data-theme="dark"] .disease-card,
+[data-theme="dark"] .info-card,
+[data-theme="dark"] .card,
+[data-theme="dark"] .tool-card,
+[data-theme="dark"] .stat{
+background:#16304a;
+border:1px solid #1f4060;
+color:#e8f4fd;
+}
+
+[data-theme="dark"] .bottom-nav{
+background:#112236;
+border-top:2px solid #1f4060;
+border-bottom:2px solid #1f4060;
+}
+
+[data-theme="dark"] .section:nth-child(even){
+background:#112236;
+}
+
+[data-theme="dark"] .theme-toggle{
+background:#112236;
+border:1px solid #1f4060;
+color:#e8f4fd;
+}
+
+[data-theme="dark"] .theme-toggle:hover{
+background:#4db6f0;
+}
+
+[data-theme="dark"] .stat h3,
+[data-theme="dark"] .disease-title,
+[data-theme="dark"] .section h2,
+[data-theme="dark"] .info-section h2{
+color:#4db6f0;
+}
+
+[data-theme="dark"] .health-tools{
+background:#0d1b2a;
+}
+
+[data-theme="dark"] .tool-card{
+background:#16304a;
+border:1px solid #1f4060;
+color:#e8f4fd;
+}
+
+[data-theme="dark"] .tool-box{
+background:#16304a;
+border:1px solid #1f4060;
+color:#e8f4fd;
+}
+
+[data-theme="dark"] .tool-box input{
+background:#112236;
+border:1px solid #1f4060;
+color:#e8f4fd;
+}
+
+[data-theme="dark"] .tool-box button{
+background:#4db6f0;
+}
+/* ============================= */
+/* HEALTH TOOLS */
+/* ============================= */
+
+.health-tools{
+text-align:center;
+padding:60px 20px;
+background:#f6fbff;
+}
+
+.health-tools h2{
+color:#2a8ccf;
+margin-bottom:30px;
+font-size:2rem;
+}
+
+.tools-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+max-width:900px;
+margin:auto;
+}
+
+.tool-card{
+background:#ffffff;
+border:1px solid #cfe4f3;
+border-radius:12px;
+padding:25px;
+text-decoration:none;
+color:#1a2533;
+transition:0.3s;
+box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+
+.tool-card span{
+display:block;
+margin-top:10px;
+color:#2a8ccf;
+font-weight:600;
+}
+
+.tool-card:hover{
+transform:translateY(-6px);
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+
+
+/* ============================= */
+/* TOOL BOX (BMI / WATER PAGES) */
+/* ============================= */
+
+.tool-box{
+background:#ffffff;
+border:1px solid #cfe4f3;
+padding:30px;
+border-radius:12px;
+max-width:400px;
+margin:30px auto;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.tool-box label{
+font-weight:600;
+}
+
+.tool-box input{
+padding:10px;
+border-radius:6px;
+border:1px solid #cfe4f3;
+}
+
+.tool-box button{
+background:#2a8ccf;
+color:white;
+border:none;
+padding:10px;
+border-radius:6px;
+cursor:pointer;
+font-weight:600;
+}
+
+.tool-box button:hover{
+opacity:0.9;
+}
+
+#bmi-result,
+#water-result{
+margin-top:10px;
+font-weight:600;
+font-size:16px;
+}
+
+/* ============================= */
+/* INDIVIDUAL PAGE BACKGROUND FIX */
+/* ============================= */
+
+/* Ensure full page background */
+
+body{
+background:#f6fbff;
+min-height:100vh;
+}
+
+/* Page header background */
+
+.disease-header{
+background:#eaf4fb;
+border-bottom:2px solid #cfe4f3;
+}
+
+/* Section background for individual pages */
+
+.section{
+background:#f6fbff;
+}
+
+.section:nth-child(even){
+background:#eaf4fb;
+}
+
+/* Card containers */
+
+.card-grid{
+margin-top:20px;
+}
+
+/* ============================= */
+/* DARK MODE FIX */
+/* ============================= */
+
+[data-theme="dark"] body{
+background:#0d1b2a;
+color:#e8f4fd;
+}
+
+/* Page header dark */
+
+[data-theme="dark"] .disease-header{
+background:#112236;
+border-bottom:2px solid #1f4060;
+}
+
+/* Section dark */
+
+[data-theme="dark"] .section{
+background:#0d1b2a;
+}
+
+[data-theme="dark"] .section:nth-child(even){
+background:#112236;
+}
+
+/* ============================= */
+/* RESOURCE LINK BUTTONS */
+/* ============================= */
+
+.resource-btn,
+.community-btn,
+.stress-btn{
+
+display:inline-block;
+margin-top:12px;
+
+padding:10px 18px;
+
+background:#2a8ccf;
+color:#ffffff;
+
+text-decoration:none;
+
+font-weight:600;
+font-size:14px;
+
+border-radius:8px;
+
+transition:0.3s;
+}
+
+/* hover effect */
+
+.resource-btn:hover,
+.community-btn:hover,
+.stress-btn:hover{
+
+background:#1f6fa5;
+
+transform:translateY(-2px);
+
+box-shadow:0 6px 12px rgba(0,0,0,0.2);
+
+}
+
+
+/* ============================= */
+/* DARK MODE LINK BUTTONS */
+/* ============================= */
+
+[data-theme="dark"] .resource-btn,
+[data-theme="dark"] .community-btn,
+[data-theme="dark"] .stress-btn{
+
+background:#4db6f0;
+color:#0d1b2a;
+
+}
+
+[data-theme="dark"] .resource-btn:hover,
+[data-theme="dark"] .community-btn:hover,
+[data-theme="dark"] .stress-btn:hover{
+
+background:#39a5e0;
+
+}

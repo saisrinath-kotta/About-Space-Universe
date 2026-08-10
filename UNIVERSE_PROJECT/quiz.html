@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Explorer Quiz | Single Edition</title>
+    <style>
+        :root {
+            --space-bg: radial-gradient(circle at center, #0a0e27 0%, #000000 100%);
+            --neon-blue: #00d4ff;
+            --neon-purple: #9d00ff;
+            --correct: #39ff14;
+            --wrong: #ff3131;
+        }
+
+        body {
+            margin: 0;
+            background: var(--space-bg);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- Star Background --- */
+        .stars-container { position: fixed; width: 100%; height: 100%; z-index: -2; }
+        .star { position: absolute; background: white; border-radius: 50%; animation: blink var(--duration) infinite ease-in-out; }
+        @keyframes blink { 0%, 100% { opacity: 0.1; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+
+        /* --- Floating Planets --- */
+        .floating-entities { position: fixed; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .entity { position: absolute; opacity: 0.4; filter: blur(1px); animation: drift var(--duration) linear infinite; }
+        @keyframes drift { from { transform: translate(0, 0) rotate(0deg); } to { transform: translate(var(--moveX), var(--moveY)) rotate(360deg); } }
+
+        /* --- Quiz Box --- */
+        .quiz-container {
+            background: rgba(10, 15, 35, 0.9);
+            backdrop-filter: blur(25px);
+            border: 2px solid var(--neon-blue);
+            border-radius: 40px;
+            width: 90%;
+            max-width: 950px;
+            min-height: 600px;
+            padding: 50px;
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.3);
+            z-index: 10;
+            text-align: center;
+            position: relative;
+        }
+
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .timer-circle {
+            width: 70px; height: 70px;
+            border: 3px solid var(--neon-blue);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+        .timer-text { font-weight: bold; font-size: 1.5rem; color: var(--neon-blue); }
+
+        /* --- Rocket Transition --- */
+        .rocket-transition {
+            position: fixed; left: -500px; top: 50%; z-index: 100;
+            display: flex; align-items: center; transform: translateY(-50%);
+        }
+        .rocket-body { font-size: 10rem; transform: rotate(45deg); position: relative; z-index: 2; }
+        .fire {
+            position: absolute; right: 80%; width: 150px; height: 60px;
+            background: linear-gradient(to left, #ffae00, #ff3131, transparent);
+            filter: blur(10px); border-radius: 50%; opacity: 0; z-index: 1;
+        }
+        .rocket-fly { animation: moveAcross 1.2s forwards linear; }
+        .rocket-fly .fire { opacity: 1; animation: engineFlicker 0.1s infinite; }
+
+        @keyframes moveAcross { 0% { left: -500px; } 100% { left: 120%; } }
+        @keyframes engineFlicker { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(2); } }
+
+        /* --- Question UI --- */
+        .visual-element { font-size: 6rem; margin-bottom: 20px; animation: float 4s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        #question-text { font-size: 2.5rem; margin-bottom: 40px; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .option-btn {
+            background: rgba(255,255,255,0.05); border: 2px solid var(--neon-blue);
+            color: white; padding: 25px; border-radius: 15px; font-size: 1.3rem;
+            cursor: pointer; transition: 0.3s; font-weight: bold;
+        }
+        .option-btn:hover:not([disabled]) { background: var(--neon-blue); color: black; box-shadow: 0 0 30px var(--neon-blue); }
+        .correct { background: var(--correct) !important; color: black; border-color: var(--correct); }
+        .wrong { background: var(--wrong) !important; color: white; border-color: var(--wrong); }
+
+        .progress-container { width: 100%; height: 10px; background: #111; border-radius: 10px; margin-bottom: 30px; overflow: hidden; }
+        .progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple)); transition: 0.4s; }
+
+        .nav-btn { width: 100%; padding: 20px; background: var(--neon-purple); border: none; border-radius: 15px; color: white; font-size: 1.5rem; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .hidden { display: none; }
+        .fade-out { opacity: 0; transform: scale(0.9); transition: 0.5s; }
+        .home-link {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  text-decoration: none;
+  padding: 10px 15px;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid cyan;
+  color: white;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+.home-link:hover {
+  background: cyan;
+  color: black;
+  box-shadow: 0 0 20px cyan;
+}
+
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="home-link">⬅ Back to Home</a>
+    <div class="stars-container"></div>
+    <div class="floating-entities" id="entities-layer"></div>
+    
+    <div class="rocket-transition" id="rocket">
+        <div class="rocket-body">🚀</div>
+        <div class="fire"></div>
+    </div>
+
+    <main class="quiz-container" id="quiz-box">
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+
+        <div class="quiz-header">
+            <div class="timer-circle">
+                <div class="timer-text" id="timer">15</div>
+            </div>
+            <div class="mission-info">
+                <span class="mission-title" id="mission-status">MISSION STATUS: ACTIVE</span>
+            </div>
+        </div>
+
+        <div id="scene">
+            <div class="visual-element" id="visual-element"></div>
+            <h2 id="question-text">System Loading...</h2>
+            <div class="options-grid" id="options-container"></div>
+        </div>
+
+        <button id="next-btn" class="nav-btn hidden">LAUNCH NEXT →</button>
+    </main>
+
+    <script>
+        const questions = [
+            { q: "Which planet is known as the Red Planet?", a: "Mars", options: ["Venus", "Mars", "Jupiter", "Saturn"], icon: "🔴" },
+            { q: "What is the largest planet in our solar system?", a: "Jupiter", options: ["Saturn", "Jupiter", "Neptune", "Earth"], icon: "🪐" },
+            { q: "Which planet has the most visible rings?", a: "Saturn", options: ["Uranus", "Neptune", "Saturn", "Jupiter"], icon: "🪐" },
+            { q: "Which planet is closest to the Sun?", a: "Mercury", options: ["Venus", "Mercury", "Earth", "Mars"], icon: "☀️" },
+            { q: "Which planet rotates on its side?", a: "Uranus", options: ["Neptune", "Uranus", "Venus", "Saturn"], icon: "⭕" },
+            { q: "What is the point of no return around a Black Hole?", a: "Event Horizon", options: ["Singularity", "Event Horizon", "Photon Sphere", "Accretion Disk"], icon: "🌀" },
+            { q: "The Big Bang Theory describes the origin of what?", a: "The Universe", options: ["Galaxies", "The Universe", "Black Holes", "Stars"], icon: "💥" },
+            { q: "Which movie features a trip through a wormhole?", a: "Interstellar", options: ["Gravity", "Interstellar", "The Martian", "Contact"], icon: "🎬" },
+            { q: "What is the closest galaxy to our Milky Way?", a: "Andromeda", options: ["Andromeda", "Sombrero", "Triangulum", "Centaurus A"], icon: "🌌" },
+            { q: "What is the sun mostly made of?", a: "Hydrogen", options: ["Oxygen", "Carbon", "Helium", "Hydrogen"], icon: "⚛️" }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+        let timeLeft = 15;
+        let timerInterval;
+
+        function initCosmos() {
+            const starContainer = document.querySelector('.stars-container');
+            const entityContainer = document.getElementById('entities-layer');
+            const icons = ['🪐', '☄️', '🌑', '✨', '🌍'];
+
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const size = Math.random() * 3 + 'px';
+                star.style.width = size;
+                star.style.height = size;
+                star.style.setProperty('--duration', (Math.random() * 3 + 1) + 's');
+                starContainer.appendChild(star);
+            }
+
+            for (let i = 0; i < 8; i++) {
+                const ent = document.createElement('div');
+                ent.className = 'entity';
+                ent.innerText = icons[Math.floor(Math.random() * icons.length)];
+                ent.style.left = Math.random() * 100 + '%';
+                ent.style.top = Math.random() * 100 + '%';
+                ent.style.fontSize = (Math.random() * 3 + 2) + 'rem';
+                ent.style.setProperty('--moveX', (Math.random() * 300 - 150) + 'px');
+                ent.style.setProperty('--moveY', (Math.random() * 300 - 150) + 'px');
+                ent.style.setProperty('--duration', (Math.random() * 15 + 10) + 's');
+                entityContainer.appendChild(ent);
+            }
+        }
+
+        function loadQuestion() {
+            const q = questions[currentIdx];
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('visual-element').innerText = q.icon;
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('progress').style.width = (currentIdx / questions.length) * 100 + '%';
+
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.innerText = opt;
+                btn.className = 'option-btn';
+                btn.onclick = () => checkAnswer(opt, btn);
+                container.appendChild(btn);
+            });
+            startTimer();
+        }
+
+        function startTimer() {
+            timeLeft = 15;
+            document.getElementById('timer').innerText = timeLeft;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function checkAnswer(selected, btn) {
+            clearInterval(timerInterval);
+            const correct = questions[currentIdx].a;
+            if (selected === correct) {
+                btn.classList.add('correct');
+                score++;
+            } else {
+                btn.classList.add('wrong');
+                Array.from(document.getElementById('options-container').children).forEach(b => {
+                    if (b.innerText === correct) b.classList.add('correct');
+                });
+            }
+            document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function handleTimeout() {
+            const correct = questions[currentIdx].a;
+            Array.from(document.getElementById('options-container').children).forEach(b => {
+                b.disabled = true;
+                if (b.innerText === correct) b.classList.add('correct');
+            });
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        document.getElementById('next-btn').onclick = () => {
+            if (currentIdx === questions.length - 1) {
+                const btn = document.getElementById('next-btn');
+                btn.innerText = "MISSION COMPLETE";
+                btn.disabled = true;
+                btn.style.background = "#444";
+                btn.style.cursor = "not-allowed";
+                document.getElementById('mission-status').innerText = "SYSTEMS SECURED";
+                return;
+            }
+
+            document.getElementById('rocket').classList.add('rocket-fly');
+            document.getElementById('quiz-box').classList.add('fade-out');
+
+            setTimeout(() => {
+                currentIdx++;
+                loadQuestion();
+                document.getElementById('quiz-box').classList.remove('fade-out');
+                setTimeout(() => document.getElementById('rocket').classList.remove('rocket-fly'), 100);
+            }, 1000);
+        };
+
+        initCosmos();
+        loadQuestion();
+    </script>
+    
+</body>
+</html>

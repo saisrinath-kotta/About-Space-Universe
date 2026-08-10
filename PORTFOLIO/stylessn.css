@@ -1,0 +1,19 @@
+.background{
+    background-color: rgb(137, 214, 188);
+    color: aliceblue;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+}
+.card{
+      text-align: center;
+    background-color: rgb(122, 0, 0);
+    font-family: Roboto;
+   margin: 5px auto;
+    padding: 10px;
+    border-radius: 25px;
+    width: 50%;
+}

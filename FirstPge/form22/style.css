@@ -1,0 +1,36 @@
+h2{
+    color:#003366;
+    text-align: center;
+}
+body{
+    background-color: rgb(87, 133, 139);;
+}
+form{
+    width:600px;
+    margin: auto;
+    background-color: aliceblue;
+    padding: 15px;
+    margin-top: 50px;
+}
+legend{
+    color: #15599e;
+}
+input,select,textarea{
+    width:97%;
+    padding: 8px;
+    margin: 2px;
+}
+input[type="radio"],
+input[type="checkbox"] {
+    width: auto;        
+}
+button{
+    background-color: rgb(123, 123, 188);
+    width: 100px;
+    margin-right:50px;
+}
+.b{
+    text-align: center;
+    margin-top: 5px;
+
+}

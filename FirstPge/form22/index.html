@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form>
+        <h2>Passport Application Form</h2>
+        <fieldset>
+            <legend>Personal Details</legend>
+            <label>Full Name</label>
+            <input type="text" required placeholder="Enter your full name">
+            <label>Date of Birth</label>
+            <input type="date" required>
+            <label>Gender</label>
+            <input type="radio" name="gender">Male
+            <input type="radio" name="gender">Female
+            <input type="radio" name="gender">Other
+            <br>
+            <label>Martial status</label>
+            <select required>
+                <option name="">Select</option>
+                <option>Single</option>
+                <option>Married</option>
+            </select>
+        </fieldset>
+        <fieldset>
+            <legend>Contact Details</legend>
+            <label>Email</label>
+            <input type="email" required>
+            <label>Mobile Number</label>
+            <input type="tel" required>
+            <label>Address</label>
+            <textarea rows="5"></textarea>
+        </fieldset>
+        <fieldset>
+            <legend>Passport Details</legend>
+            <label>Type of Application</label>
+            <br>
+            <input type="radio" name="pp">New Passport
+            <input type="radio" name="pp">Reissue
+            <br>
+            <label>Passport Booklet type</label>
+            <br>
+            <input type="checkbox">36 Pages
+            <input type="checkbox">60 Pages
+            <br>
+            <label>Upload proof</label>
+            <input type="file" required>
+        </fieldset>
+        <fieldset>
+            <legend>Declaration</legend>
+            <input type="checkbox">I hearby declare that the given information is true.
+        </fieldset>
+        <div class="b">
+        <button>Submit</button>
+        <button>Clear</button>
+        </div>
+    </form>
+</body>
+</html>

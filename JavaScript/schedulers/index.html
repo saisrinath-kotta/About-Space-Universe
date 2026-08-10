@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+      let count = 0;
+      let id = setInterval(function(){
+        count++;
+        console.log(count);
+        if(count === 3){
+            clearTimeout(id2);
+        }
+        if(count === 10){
+            clearInterval(id);
+            console.log("counter stopped");
+        }
+      },1000)
+
+      let id2 = setTimeout( () =>{
+        console.log("good morning");
+      },5000)
+    </script>
+</body>
+</html>

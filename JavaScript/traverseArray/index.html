@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let lis = [10, 20, "name", 12.30];
+        console.log(lis);
+        lis.forEach(function(item,index){                 /*   This is using function for each loop    */
+            console.log(index+" : "+item);
+        });
+
+        lis.forEach((item)=>{
+            console.log(item);                        /* this using "=>" instead of function in for each loop*/                 
+        });
+
+        let fruits = ["apple","orange"];
+        fruits.forEach((item)=>{
+            console.log(item);
+        });
+
+        function message(){
+            console.log("welcome");
+        }
+        message();
+
+        function add(a,b){
+            return a+b;
+        }
+        let s = add(3,4);
+        console.log(s);
+        console.log(add(10,30));
+
+
+        //  -----       ARROW Function with parameters    ----   //
+        const multiply = (a,b) => {
+            return a*b;
+        }
+        console.log(multiply(20,30));
+
+        //    ---- --   ARROW Funtion WIthout Arguments    ---  //
+        let greet = () => {
+            console.log("hi,Good Morning!");
+        }
+        greet();
+
+        let adds = () =>{
+            let a = 20;
+            let b = 30;
+            return a+b;
+        }
+        console.log(adds());
+
+
+    </script>
+</body>
+</html>

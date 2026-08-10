@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reusable CSS Variables Demo</title>
+
+<style>
+
+/* ============================= */
+/* 🌍 GLOBAL VARIABLES */
+/* ============================= */
+:root {
+  --primary-color: #2b4effad;
+  --text-color: #333;
+  --bg-color: #f4f6fb;
+  --card-bg: white;
+  --spacing: 20px;
+  --radius: 10px;
+}
+/* ============================= */
+/* BODY */
+/* ============================= */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* ============================= */
+/* HEADER */
+/* ============================= */
+header {
+  background: var(--primary-color);
+  color: white;
+    padding: var(--spacing);
+}
+/* ============================= */
+/* LAYOUT */
+/* ============================= */
+.container {
+  display: flex;
+  gap: var(--spacing);
+  padding: var(--spacing);
+}
+
+/* ============================= */
+/* CARD COMPONENT */
+/* ============================= */
+.card {
+
+  /* 🏠 Local variable */
+  --card-accent: var(--primary-color);
+
+  background: var(--card-bg);
+  padding: var(--spacing);
+  border-radius: var(--radius);
+  border-top: 5px solid var(--card-accent);
+  flex: 1;
+}
+
+.card h2 {
+  color: var(--card-accent);
+}
+
+.card button {
+  background: var(--card-accent);
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+/* ============================= */
+/* CARD COLOR OVERRIDES */
+/* ============================= */
+.card.ai {
+  --card-accent: #ff6b6b;
+}
+
+.card.cyber {
+  --card-accent: #00b894;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Learn Hub - Courses</h1>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Web Development</h2>
+    <p>Learn HTML, CSS, and JavaScript.</p>
+    <button>Enroll</button>
+  </div>
+
+  <div class="card ai">
+    <h2>Artificial Intelligence</h2>
+    <p>Introduction to Machine Learning concepts.</p>
+    <button>Enroll</button>
+  </div>
+
+  <div class="card cyber">
+    <h2>Cyber Security</h2>
+    <p>Network and system security basics.</p>
+    <button>Enroll</button>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+.body-background{
+    align-content: center;
+    background-image: url("https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?cs=srgb&dl=pexels-jplenio-1103970.jpg&fm=jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: rgb(105, 68, 19);
+    font-family: Roboto;
+
+
+}
+.container{
+    background-color: black;
+    text-align: center;
+    border-radius: 25px;
+    margin: 20px auto;
+    width: 600px;
+    height: 200px;
+    padding: 20px;
+
+}

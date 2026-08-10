@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Disease Details</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<nav>
+
+<a class="logo" href="index.html">🏥 HealthAware</a>
+
+<button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
+</nav>
+
+<div class="disease-hero">
+
+<div class="d-icon"></div>
+
+<h1></h1>
+
+<p class="d-desc"></p>
+
+</div>
+
+<section class="info-section">
+
+<section class="info-section">
+
+<h2>Symptoms</h2>
+
+<div id="symptoms" class="info-list"></div>
+
+</section>
+
+<section class="info-section">
+
+<h2>Precautions</h2>
+<ul id="precautions-list"></ul>
+
+</section>
+
+<section class="info-section">
+
+<h2>Disease Statistics</h2>
+
+<div class="stats-row">
+
+<div class="stat-box">
+<h3 id="death-stat"></h3>
+<p>Deaths per year</p>
+</div>
+
+<div class="stat-box">
+<h3 id="affected-stat"></h3>
+<p>People affected</p>
+</div>
+
+</div>
+
+</section>
+<!-- RISK FACTORS -->
+
+<section class="info-section">
+
+<h2>Risk Factors</h2>
+
+<div class="info-list">
+
+<div class="info-item">Smoking</div>
+<div class="info-item">Obesity</div>
+<div class="info-item">High Cholesterol</div>
+<div class="info-item">High Blood Pressure</div>
+<div class="info-item">Lack of Exercise</div>
+<div class="info-item">Stress</div>
+
+</div>
+
+</section>
+
+
+
+<!-- STATISTICS TABLE -->
+
+<section class="info-section">
+
+<h2>Disease Statistics (Deaths per Year)</h2>
+
+<table class="stats-table">
+
+<tr>
+<th>Year</th>
+<th>Deaths (Millions)</th>
+</tr>
+
+<tr>
+<td>2018</td>
+<td>17.3</td>
+</tr>
+
+<tr>
+<td>2019</td>
+<td>17.5</td>
+</tr>
+
+<tr>
+<td>2020</td>
+<td>17.7</td>
+</tr>
+
+<tr>
+<td>2021</td>
+<td>17.9</td>
+</tr>
+
+<tr>
+<td>2022</td>
+<td>18.1</td>
+</tr>
+
+</table>
+
+</section>
+
+
+
+<!-- GLOBAL DEATH SHARE -->
+
+<section class="info-section">
+
+<h2>Global Death Percentage</h2>
+
+<div class="bar">
+
+<p>Heart Disease - 32%</p>
+
+<div class="progress">
+<div class="progress-fill" style="width:32%"></div>
+</div>
+
+</div>
+
+<div class="bar">
+
+<p>Cancer - 21%</p>
+
+<div class="progress">
+<div class="progress-fill" style="width:21%"></div>
+</div>
+
+</div>
+
+<div class="bar">
+
+<p>Diabetes - 8%</p>
+
+<div class="progress">
+<div class="progress-fill" style="width:8%"></div>
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- TREATMENT OPTIONS -->
+
+<section class="info-section">
+
+<h2>Treatment Options</h2>
+
+<ul class="treatment-list">
+
+<li>Lifestyle changes (healthy diet and exercise)</li>
+<li>Medications prescribed by doctors</li>
+<li>Regular medical checkups</li>
+<li>Surgery in severe cases</li>
+
+</ul>
+
+</section>
+
+
+
+<!-- WHEN TO SEE DOCTOR -->
+
+<section class="info-section">
+
+<h2>When To See a Doctor</h2>
+
+<ul class="treatment-list">
+
+<li>Severe chest pain</li>
+<li>Shortness of breath</li>
+<li>Sudden weakness or fainting</li>
+<li>Persistent symptoms lasting several days</li>
+
+</ul>
+
+</section>
+
+
+
+<!-- QUICK FACTS -->
+
+<section class="info-section">
+
+<h2>Quick Facts</h2>
+
+<div class="info-list">
+
+<div class="info-item">17.9 Million deaths every year</div>
+
+<div class="info-item">523 Million people affected globally</div>
+
+<div class="info-item">Leading cause of death worldwide</div>
+
+</div>
+
+</section>
+
+<script src="script.js"></script>
+
+</body>
+</html>

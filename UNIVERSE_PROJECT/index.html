@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unifexy</title>
+
+<style>
+    /* LOGIN SCREEN */
+.login-page {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #020617, #000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* LOGIN BOX */
+.login-box {
+  background: rgba(10, 10, 30, 0.9);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(168,85,247,0.5);
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+  color: #a855f7;
+}
+
+.login-box input {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 200px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+}
+
+.login-box button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  background: #a855f7;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+/* PROFILE PAGE */
+.profile-page {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #020617, #000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.profile-box {
+  background: rgba(10, 10, 30, 0.9);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(168,85,247,0.5);
+}
+
+.profile-box h2 {
+  color: #a855f7;
+  margin-bottom: 20px;
+}
+
+.profile-box input,
+.profile-box select {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 220px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+.profile-box button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: #a855f7;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+/* PROFILE ICON TOP RIGHT */
+.profile-icon {
+  position: fixed;
+  top: 20px;
+  left: 30px; /* 🔥 moved */
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 10;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+  color: white;
+}
+
+/* VIDEO BACKGROUND */
+.video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+.bg-video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+
+  filter: none; /* 🔥 VERY IMPORTANT */
+}
+.bg-video.active {
+  opacity: 1;
+}
+
+/* 🔥 DARK BLUE + PURPLE OVERLAY */
+
+
+/* 🔥 FULL SCREEN CENTER CONTENT */
+.content {
+  height: 100vh; /* FULL SCREEN */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* PERFECT CENTER */
+  text-align: center;
+}
+
+/* TITLE */
+.title {
+  font-size: 3.5rem;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px rgba(0,0,0,0.8);
+}
+
+.title span {
+  color: #a855f7; /* purple */
+  text-shadow: 0 0 25px #a855f7;
+}
+
+/* SUBTITLE */
+.subtitle {
+  margin-top: 10px;
+  color: #b3b3ff;
+  font-size: 1.1rem;
+   text-shadow: 0 0 10px rgba(0,0,0,0.8);
+}
+
+/* PLANET NAV */
+.planet-nav {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 60px;
+}
+
+/* PLANETS */
+.planet {
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #0f172a, #020617);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(168,85,247,0.5);
+
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+.planet:nth-child(1) { animation-delay: 0s; }
+.planet:nth-child(2) { animation-delay: 0.5s; }
+.planet:nth-child(3) { animation-delay: 1s; }
+.planet:nth-child(4) { animation-delay: 1.5s; }
+.planet:nth-child(5) { animation-delay: 2s; }
+/* ICON */
+.planet span {
+  font-size: 32px;
+}
+
+/* TEXT */
+.planet p {
+  font-size: 12px;
+  margin-top: 5px;
+  color: #c4b5fd;
+}
+
+/* HOVER EFFECT */
+.planet:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 25px #a855f7;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .planet-nav {
+    flex-wrap: wrap;
+    gap: 25px;
+  }
+}
+.top-bar {
+  position: relative;   /* 🔥 change */
+  width: 100%;
+  overflow: hidden;
+  z-index: 4;
+}
+
+/* scrolling container */
+.marquee {
+  display: flex;
+  width: 200%;
+  animation: scroll 12s linear infinite;
+
+  background: linear-gradient(
+    to right,
+    rgba(10,10,30,0.6),
+    rgba(30,27,75,0.8),
+    rgba(10,10,30,0.6)
+  );
+
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(168,85,247,0.3);
+  border-bottom: 1px solid rgba(168,85,247,0.3);
+  padding: 8px 0;
+}
+
+.marquee span {
+  white-space: nowrap;
+  font-size: 14px;
+  color: #c4b5fd;
+  padding-right: 50px;
+  letter-spacing: 1px;
+
+  text-shadow: 0 0 10px rgba(168,85,247,0.6);
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+
+/* ⭐ STARS BACKGROUND */
+.stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* MANY STARS */
+.stars::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+
+  box-shadow:
+    50px 100px white,
+    150px 200px white,
+    300px 50px white,
+    400px 300px white,
+    600px 150px white,
+    800px 400px white,
+    1000px 200px white,
+    1200px 100px white,
+    1400px 350px white,
+    1600px 250px white;
+
+  animation: twinkle 2s infinite alternate;
+}
+
+/* ANIMATION */
+@keyframes twinkle {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+/* ---------- Solar system section ---------- */
+.solar-section {
+  padding: 80px 20px;
+  background: #000; /* or a very dark space tone */
+  color: #fff;
+}
+
+.solar-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.solar-image img {
+  max-width: 400px;
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(168,85,247,0.4);
+}
+
+/* text side */
+.solar-text {
+  max-width: 600px;
+}
+
+.solar-text h2 {
+  font-size: 2.4rem;
+  color: #a855f7;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(168,85,247,0.6);
+}
+
+.solar-text p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ccc;
+  margin-bottom: 15px;
+}
+
+/* mobile adjustments */
+@media (max-width: 768px) {
+  .solar-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .solar-image img {
+    max-width: 300px;
+  }
+
+  .solar-text {
+    max-width: 100%;
+  }
+}
+.solar-system {
+  padding: 80px 20px;
+  background: black;
+  text-align: center;
+}
+
+.solar-system h2 {
+  font-size: 2.8rem;
+  color: #a855f7;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(168,85,247,0.6);
+}
+
+.solar-desc {
+  color: #bbb;
+  margin-bottom: 50px;
+}
+
+/* GRID */
+.planet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* CARD */
+.planet-card {
+  background: rgba(10,10,30,0.8);
+  padding: 20px;
+  border-radius: 20px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.planet-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  box-shadow: 0 0 20px rgba(168,85,247,0.5);
+}
+
+.planet-card h3 {
+  color: #c084fc;
+}
+
+/* HOVER EFFECT */
+.planet-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 0 30px #a855f7;
+}
+/* FULL SCREEN BACKDROP */
+.modal {
+  display: none; /* keep ONLY this */
+  position: fixed;
+  z-index: 50;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🔥 BIG COOL CARD */
+.modal-content {
+  width: 600px;
+  max-width: 90%;
+  padding: 40px;
+
+  border-radius: 25px;
+
+  background: rgba(15, 15, 40, 0.85);
+  backdrop-filter: blur(20px);
+
+  box-shadow: 
+    0 0 40px rgba(168,85,247,0.6),
+    0 0 80px rgba(168,85,247,0.3);
+
+  text-align: center;
+
+  animation: popUp 0.4s ease;
+}
+
+/* IMAGE */
+.modal-content img {
+  width: 200px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+
+  box-shadow: 0 0 30px rgba(168,85,247,0.7);
+}
+
+/* TITLE */
+.modal-content h2 {
+  font-size: 2rem;
+  color: #a855f7;
+  margin-bottom: 10px;
+}
+
+/* DESCRIPTION */
+.modal-content p {
+  color: #ccc;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+/* CLOSE BUTTON */
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 28px;
+  cursor: pointer;
+  color: white;
+}
+
+/* ANIMATION */
+@keyframes popUp {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: #a855f7;
+  color: white;
+  z-index: 10;
+}
+
+/* LIGHT MODE */
+.light-mode {
+  background: #f5f5f5;
+  color: black;
+}
+
+.light-mode .planet-card {
+  background: rgba(255,255,255,0.9);
+  color: black;
+}
+
+/* FIX ALL TEXT */
+.light-mode .title,
+.light-mode .subtitle,
+.light-mode .solar-desc {
+  color: black;
+}
+
+/* NAV TEXT */
+.light-mode .planet p {
+  color: #333;
+}
+
+/* MODAL */
+.light-mode .modal-content {
+  background: white;
+  color: black;
+}
+.menu-icon {
+  position: fixed;
+  top: 20px;
+  right: 80px;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.side-menu {
+  position: fixed;
+  right: -250px;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  background: rgba(10,10,30,0.95);
+  padding: 20px;
+  transition: 0.4s;
+  z-index: 20;
+}
+
+.side-menu.active {
+  right: 0;
+}
+.chatbox {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 260px;
+  background: rgba(10,10,30,0.9);
+  border-radius: 15px;
+  padding: 10px;
+  z-index: 10;
+}
+
+#chatMessages {
+  height: 150px;
+  overflow-y: auto;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.chatbox input {
+  width: 70%;
+  padding: 5px;
+}
+
+.chatbox button {
+  padding: 5px 10px;
+}
+/* FULL CHAT PAGE */
+.chat-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #020617, #000);
+  z-index: 100;
+
+  display: none;
+  flex-direction: column;
+}
+
+/* SHOW */
+.chat-page.active {
+  display: flex;
+}
+
+/* HEADER */
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background: rgba(10,10,30,0.9);
+  border-bottom: 1px solid #a855f7;
+}
+
+.chat-header span {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* MESSAGES */
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* INPUT */
+.chat-input {
+  display: flex;
+  padding: 10px;
+  background: rgba(10,10,30,0.9);
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+}
+
+.chat-input button {
+  margin-left: 10px;
+  padding: 10px;
+  background: #a855f7;
+  border: none;
+  border-radius: 10px;
+  color: white;
+}
+
+/* BUTTON */
+.chat-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #a855f7;
+  padding: 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+}
+/* FEEDBACK */
+.feedback-section {
+  padding: 80px 20px;
+  text-align: center;
+  background: #020617;
+}
+
+.feedback-section h2 {
+  color: #a855f7;
+  margin-bottom: 10px;
+}
+
+.feedback-form {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.feedback-form input,
+.feedback-form select,
+.feedback-form textarea {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+}
+
+.feedback-form button {
+  padding: 10px;
+  background: #a855f7;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* ENDING SECTION */
+.ending {
+  padding: 100px 20px;
+  text-align: center;
+  background: radial-gradient(circle, #020617, black);
+}
+
+.ending h1 {
+  font-size: 2.5rem;
+  color: #a855f7;
+  text-shadow: 0 0 20px #a855f7;
+}
+
+.ending p {
+  color: #ccc;
+  margin-top: 10px;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 30px;
+  background: #000;
+  border-top: 1px solid #a855f7;
+}
+
+.footer h3 {
+  color: #a855f7;
+}
+#profileModal img {
+  border: 3px solid #a855f7;
+}
+
+#profileModal h2 {
+  margin-top: 10px;
+  color: #a855f7;
+}
+
+#profileModal p {
+  margin-top: 5px;
+  color: #ccc;
+}
+</style>
+</head>
+
+<body>
+  
+<div id="chatPage" class="chat-page">
+
+  <div class="chat-header">
+    <span onclick="toggleChat()">⬅ Back</span>
+    <h2>AI Space Assistant 🌌</h2>
+  </div>
+
+  <div id="chatMessages" class="chat-messages"></div>
+
+  <div class="chat-input">
+    <input type="text" id="userInput" placeholder="Ask about space...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+</div>
+
+<!-- CHAT BUTTON -->
+<div class="chat-toggle" onclick="toggleChat()">💬</div>
+   <div class="top-bar">
+  <div class="marquee">
+    <span>🚀 UNIFEXY • EXPLORE PLANETS • GALAXIES • MISSIONS • AI SPACE 🌌</span>
+    <span>🚀 UNIFEXY • EXPLORE PLANETS • GALAXIES • MISSIONS • AI SPACE 🌌</span>
+  </div>
+</div>
+<div class="stars"></div>
+    <div class="profile-icon" onclick="openProfile()">
+  👤
+</div>
+
+
+ <audio id="bgMusic"  loop autoplay muted>
+  <source src="uniaudio.mp3" type="audio/mpeg">
+</audio>
+<!-- VIDEO BACKGROUND -->
+<div class="video-container">
+  <video autoplay muted loop class="bg-video active">
+  <source src="1st.mp4">
+</video>
+
+<video autoplay muted loop class="bg-video">
+  <source src="2nd.mp4">
+</video>
+
+<video autoplay muted loop class="bg-video">
+  <source src="3rd.mp4">
+</video>
+
+<video autoplay muted loop class="bg-video">
+  <source src="4th.mp4">
+</video>
+
+<video autoplay muted loop class="bg-video">
+  <source src="5th.mp4">
+</video>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+  <h1 class="title">Welcome to <span>Unifexy</span></h1>
+  <p class="subtitle">Explore the Universe Like Never Before</p>
+
+  <!-- PLANET NAV -->
+  <div class="planet-nav">
+
+    <div class="planet" onclick="navigate('Home')">
+      <span>🌍</span>
+      <p>Home</p>
+    </div>
+    <div class="planet" onclick="navigate('SolarSystem')">
+  <span>☀️</span>
+  <p>Solar System</p>
+</div>
+    <a href="explorer.html" target="_blank">
+  <div class="planet">
+    <span>🪐</span>
+    <p>Explore</p>
+  </div>
+</a>
+<a href="media.html" target="_blank">
+  <div class="planet">
+    <span>🎧</span>
+    <p>Visit & Hear Universe</p>
+  </div>
+</a>
+    <a href="weight.html" target="_blank">
+  <div class="planet">
+    <span>🌌</span>
+    <p>Cosmic Weights Calculator & Astrology</p>
+  </div>
+</a>
+
+    <a href="quiz.html" target="_blank">
+  <div class="planet">
+    <span>🚀</span>
+    <p>Quiz</p>
+  </div>
+</a>
+
+    <div class="planet" onclick="navigate('Profile')">
+      <span>👤</span>
+      <p>Profile</p>
+    </div>
+
+  </div>
+</div>
+<section id="solarSection"class="solar-system">
+
+  <h2>Our Solar System</h2>
+  <p class="solar-desc">
+    Explore all 8 planets in our solar system. Each planet has unique features, from extreme heat to icy winds.
+  </p>
+
+  <div class="planet-grid">
+    <div class="planet-card" onclick="openPlanet('Sun')">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg/960px-The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg">
+  <h3>Sun</h3>
+</div>
+  <div class="planet-card" onclick="openPlanet('Mercury')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg">
+    <h3>Mercury</h3>
+  </div>
+
+  <div class="planet-card" onclick="openPlanet('Venus')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Venus_from_Mariner_10.jpg">
+    <h3>Venus</h3>
+  </div>
+
+  <div class="planet-card" onclick="openPlanet('Earth')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg">
+    <h3>Earth</h3>
+  </div>
+
+  <div class="planet-card" onclick="openPlanet('Mars')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg">
+    <h3>Mars</h3>
+  </div>
+
+  <div class="planet-card" onclick="openPlanet('Jupiter')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Jupiter_and_its_shrunken_Great_Red_Spot.jpg">
+    <h3>Jupiter</h3>
+  </div>
+
+  <div class="planet-card" onclick="openPlanet('Saturn')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg">
+    <h3>Saturn</h3>
+  </div>
+
+  <div class="planet-card" onclick="openPlanet('Uranus')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg">
+    <h3>Uranus</h3>
+  </div>
+
+  <div class="planet-card" onclick="openPlanet('Neptune')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg">
+    <h3>Neptune</h3>
+  </div>
+</div>
+
+</section>
+<div id="planetModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">×</span>
+
+    <img id="modalImg" src="" alt="">
+    <h2 id="modalTitle"></h2>
+    <p id="modalDesc"></p>
+  </div>
+</div>
+<!-- FEEDBACK SECTION -->
+<section class="feedback-section">
+  <h2>Share Your Experience 🚀</h2>
+  <p>Help us improve Unifexy by giving your feedback</p>
+
+  <form class="feedback-form">
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    
+    <select>
+      <option>Rate Experience</option>
+      <option>⭐</option>
+      <option>⭐⭐</option>
+      <option>⭐⭐⭐</option>
+      <option>⭐⭐⭐⭐</option>
+      <option>⭐⭐⭐⭐⭐</option>
+    </select>
+
+    <textarea placeholder="Your Feedback..." rows="4"></textarea>
+
+    <button type="submit">Submit 🚀</button>
+  </form>
+</section>
+<div id="profileModal" class="modal">
+  <div class="modal-content">
+
+    <span class="close" onclick="closeProfile()">×</span>
+
+    <img id="profilePic" src="https://i.pravatar.cc/200" alt="Profile">
+
+    <h2 id="profileName">User Name</h2>
+    <p id="profileUsername">@username</p>
+    <p id="profileInterest">Interest: Space</p>
+
+  </div>
+</div>
+<!-- COOL ENDING -->
+<section class="ending">
+  <h1>🌌 Keep Exploring the Universe</h1>
+  <p>The cosmos is vast, and your journey has just begun ✨</p>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <h3>Unifexy 🌌</h3>
+  <p>Explore • Learn • Discover</p>
+  <p>© 2026 Unifexy | All Rights Reserved</p>
+</footer>
+<script>
+  
+
+function openProfile() {
+
+  let name = localStorage.getItem("name") || "Space Explorer";
+  let username = localStorage.getItem("username") || "unifexy_user";
+  let interest = localStorage.getItem("interest") || "Space";
+
+  document.getElementById("profileName").innerText = name;
+  document.getElementById("profileUsername").innerText = "@" + username;
+  document.getElementById("profileInterest").innerText = "Interest: " + interest;
+
+  // 🔥 Dynamic profile pic
+  document.getElementById("profilePic").src =
+    "https://i.pravatar.cc/200?u=" + username;
+
+  document.getElementById("profileModal").style.display = "flex";
+}
+
+function closeProfile() {
+  document.getElementById("profileModal").style.display = "none";
+}
+// VIDEO SLIDESHOW
+let videos = document.querySelectorAll(".bg-video");
+let index = 0;
+
+setInterval(() => {
+  videos[index].classList.remove("active");
+
+  index = (index + 1) % videos.length;
+
+  videos[index].classList.add("active");
+}, 4000); // 🔥 faster (4 sec)
+
+
+// NAVIGATION FUNCTION
+function navigate(page) {
+  if (page === 'SolarSystem') {
+    document.getElementById('solarSection')
+      .scrollIntoView({ behavior: 'smooth' });
+  } 
+  else if (page === 'Profile') {
+    openProfile(); // 🔥 FIX
+  }
+}
+function openPlanet(planet) {
+
+  let data = {
+    Sun: {
+  img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg/960px-The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg",
+  desc: "The Sun is a massive star at the center of our solar system. It provides light and energy to all planets and makes life on Earth possible."
+},
+   Mercury: {
+  img: "https://science.nasa.gov/wp-content/uploads/2023/09/spectra-mercury.jpg?w=1024",
+  desc: "Mercury is the closest planet to the Sun and the smallest in the solar system."
+},
+Venus: {
+  img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Venus_globe.jpg/500px-Venus_globe.jpg",
+  desc: "Venus is the hottest planet with thick toxic atmosphere."
+},
+Earth: {
+  img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/The_Blue_Marble%2C_AS17-148-22727.jpg/1280px-The_Blue_Marble%2C_AS17-148-22727.jpg",
+  desc: "Earth is the only planet known to support life."
+},
+Mars: {
+  img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png/1280px-Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png",
+  desc: "Mars is called the Red Planet."
+},
+Jupiter: {
+  img: "https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter_OPAL_2024.png",
+  desc: "Jupiter is the largest planet."
+},
+Saturn: {
+  img: "https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg",
+  desc: "Saturn has beautiful rings."
+},
+Uranus: {
+  img: "https://upload.wikimedia.org/wikipedia/commons/6/69/Uranus_Voyager2_color_calibrated.png",
+  desc: "Uranus rotates on its side."
+},
+Neptune: {
+  img: "https://cdn.mos.cms.futurecdn.net/v2/t:0,l:510,cw:1312,ch:1312,q:80,w:1312/PezBzd9Fehsq9XWgWMauVV.jpg",
+  desc: "Neptune has strongest winds."
+}
+  };
+
+  document.getElementById("modalImg").src = data[planet].img;
+  document.getElementById("modalTitle").innerText = planet;
+  document.getElementById("modalDesc").innerText = data[planet].desc;
+
+  document.getElementById("planetModal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("planetModal").style.display = "none";
+}
+function toggleTheme() {
+  document.body.classList.toggle("light-mode");
+
+  let btn = document.querySelector(".theme-toggle");
+  if (document.body.classList.contains("light-mode")) {
+    btn.innerHTML = "☀️";
+  } else {
+    btn.innerHTML = "🌙";
+  }
+}
+function toggleMenu() {
+  document.getElementById("sideMenu").classList.toggle("active");
+}
+function toggleChat() {
+  document.getElementById("chatPage").classList.toggle("active");
+}
+function sendMessage() {
+  let input = document.getElementById("userInput").value;
+  if (input.trim() === "") return;
+  let chat = document.getElementById("chatMessages");
+
+  let userMsg = "<p><b>You:</b> " + input + "</p>";
+  chat.innerHTML += userMsg;
+
+  let reply = "";
+
+  input = input.toLowerCase();
+
+  if (input.includes("mercury")) {
+    reply = "Mercury is the closest planet to the Sun.";
+  } else if (input.includes("earth")) {
+    reply = "Earth is the only known planet with life.";
+  } else if (input.includes("mars")) {
+    reply = "Mars is called the Red Planet.";
+  } else {
+    reply = "I am your space assistant 🌌 Ask about planets!";
+  }
+
+  let botMsg = "<p><b>AI:</b> " + reply + "</p>";
+  chat.innerHTML += botMsg;
+chat.scrollTop = chat.scrollHeight;
+
+  document.getElementById("userInput").value = "";
+}
+document.getElementById("userInput").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    sendMessage();
+  }
+});
+window.onload = function () {
+
+  let loggedIn = localStorage.getItem("loggedIn");
+  let userCreated = localStorage.getItem("userCreated");
+
+  console.log("loggedIn:", loggedIn);
+  console.log("userCreated:", userCreated);
+
+  if (!loggedIn || !userCreated) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  let music = document.getElementById("bgMusic");
+
+  music.play().then(() => {
+    music.muted = false;
+  }).catch(err => {
+    console.log("Autoplay blocked:", err);
+  });
+};
+</script>
+
+</body>
+</html>

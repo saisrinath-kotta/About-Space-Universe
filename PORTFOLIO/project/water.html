@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Water Intake Calculator | HealthAware</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header class="top-header">
+
+<a href="index.html" class="logo">🏥 HealthAware</a>
+
+<div class="nav-right">
+<button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+</div>
+
+</header>
+
+
+<section class="section">
+
+<h2>Water Intake Calculator</h2>
+
+<div class="tool-box">
+
+<label>Your Weight (kg)</label>
+<input type="number" id="water-weight" placeholder="Enter weight">
+
+<button onclick="calculateWater()">Calculate Water Intake</button>
+
+<p id="water-result"></p>
+
+</div>
+
+</section>
+
+
+<footer class="footer">
+<p>© 2026 HealthAware | Created by Sai Srinath</p>
+</footer>
+
+
+<script src="script.js"></script>
+
+<script>
+
+function calculateWater(){
+
+let weight = document.getElementById("water-weight").value;
+
+if(weight==0){
+document.getElementById("water-result").innerHTML="Please enter your weight";
+return;
+}
+
+let water = weight * 0.033;
+
+document.getElementById("water-result").innerHTML =
+"You should drink about " + water.toFixed(2) + " liters of water per day.";
+
+}
+
+</script>
+
+</body>
+</html>

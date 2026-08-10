@@ -1,0 +1,30 @@
+.body-background{
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.cotation{
+    background: linear-gradient(135deg, #7388e6 0%, #7e57a6 100%);
+    text-align: center;
+    padding: 35px;
+    margin: 2%;
+}
+.box{
+    background: linear-gradient(135deg, #7388e6 0%, #7e57a6 100%);
+    text-align: center;
+    max-width: 500px;
+    border-radius: 25px;
+
+}
+.card-button{
+     background: linear-gradient(135deg, #da8cc2 0%, #f90879 100%);
+     border-radius: 25px;
+     padding: 12px;
+}
+.grid-conatiner{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: auto;
+    max-width: 1100px;
+    gap: 30px;
+
+
+}

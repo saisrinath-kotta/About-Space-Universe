@@ -1,0 +1,30 @@
+.body-background{
+    background-image: url("/FirstPge/bgimage.jpg");
+    height:100vh;
+    width:100vw;
+    background-size: cover;
+    align-items: center;
+
+}
+.grid-container{
+ display:grid;
+    grid-template-columns:50% 50%;
+    gap: 25px;
+    padding:40px;
+    margin:auto;
+    max-width:900px;
+}
+.main{
+    display: flex;
+    flex-direction: row;
+    border-radius: 25px;
+    background-color:lightblue;
+    max-width:500px;
+
+}
+.image-box{
+    height: 150px;
+    width: 150px;
+    border-radius: 40px;
+    padding: 20px;
+}

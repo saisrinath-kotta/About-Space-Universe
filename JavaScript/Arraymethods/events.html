@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        let name = ["hi","hello","byee","hieeeee"];
+        let nlist = name.filter((n) => n.length >= 4);
+        console.log(nlist);
+
+        //reduce() 
+        let n = [1,2,3,4,5];
+        let sum = n.reduce((sum,num) => sum+num ,0);
+        console.log(sum);
+        let max = n.reduce((max,num) => num>max ? num:max ,n[0]);
+        console.log(max);
+        
+    </script>   
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Zoom</title>
+    <style>
+        body{
+            text-align: center;
+            margin-top: 50px;
+        }
+        img{
+            width: 300px;
+            transition: 0.3s;
+        }
+        button{
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Zoom In & Zoom Out Image</h2>
+
+    <img id="myImage" 
+         src="/FirstPge/OIP.webp">
+
+    <br>
+
+    <button onclick="zoomIn()">Zoom In</button>
+    <button onclick="zoomOut()">Zoom Out</button>
+
+    <script>
+        let img = document.getElementById("myImage");
+        let width = 300;
+
+        function zoomIn(){
+            width += 20;
+            img.style.width = width + "px";
+        }
+
+         function zoomOut(){
+            width -= 20;
+            img.style.width = width + "px";
+        }
+
+          </script>
+
+</body>
+</html>

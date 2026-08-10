@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Object Project</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, violet, skyblue);
+            text-align: center;
+        }
+
+        #mainContainer {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .product {
+            border: 3px solid black;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+            background-color: rgb(10, 168, 168);
+            border-radius: 10px;
+        }
+
+        #productContainer {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #cart {
+            border: 3px solid black;
+            padding: 10px;
+            width: 250px;
+            border-radius: 20px;
+            background-color: rgb(25, 186, 186);
+        }
+
+        #cart h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Electronic Section</h2>
+
+<div id="mainContainer">
+
+    <!-- Products -->
+    <div id="productContainer"></div>
+
+    <!-- Cart -->
+    <div id="cart">
+        <h3>Cart</h3>
+        <div id="cartItems"></div>
+        <h4>Total: ₹ <span id="total">0</span></h4>
+    </div>
+
+</div>
+
+<script>
+  // Array of objects
+let products = [
+    { name: "Tv", price: 35000 },
+    { name: "Mobile", price: 20000 },
+    { name: "Laptop", price: 45000 },
+    { name: "HeadPhones", price: 5000 },
+    { name: "Speaker", price: 2000 },
+    { name: "Accessories", price: 45000 }
+];
+
+let container = document.getElementById("productContainer");
+let cartItemsDiv = document.getElementById("cartItems");
+let totalSpan = document.getElementById("total");
+
+let total = 0;
+
+// Loop through products
+products.forEach(function(product) {
+
+    let div = document.createElement("div");
+    div.className = "product";
+
+    let title = document.createElement("h3");
+    title.textContent = product.name;
+
+    let price = document.createElement("p");
+    price.textContent = "Price: ₹ " + product.price;
+
+    let button = document.createElement("button");
+    button.textContent = "Buy";
+
+    button.onclick = function() {
+
+        // Add item to cart display
+        let item = document.createElement("p");
+        item.textContent = product.name + " - ₹ " + product.price;
+        cartItemsDiv.appendChild(item);
+
+        // Update total
+        total += product.price;
+        totalSpan.textContent = total;
+    };
+
+    div.appendChild(title);
+    div.appendChild(price);
+    div.appendChild(button);
+
+    container.appendChild(div);
+});
+</script>
+
+</body>
+</html>

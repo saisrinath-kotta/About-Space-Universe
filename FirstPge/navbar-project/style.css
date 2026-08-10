@@ -1,0 +1,26 @@
+body{
+    background-image: url("spaceimg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Roboto;
+}
+h1{
+    color: rgb(142, 167, 187);
+}
+h2{
+    font-size: 32px;
+    color: rgb(142, 167, 187);
+}
+p,li{
+    font-size: 30px;
+    color:rgb(217, 230, 35) ;
+}
+.nav-bar{
+    background: rgb(200, 235, 239);
+    width: fit-content;
+    border-radius: 25px;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 15px;
+}

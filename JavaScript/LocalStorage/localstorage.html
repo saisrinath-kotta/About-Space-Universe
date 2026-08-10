@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick = "getValue()" >Submit</button>
+
+    <script>
+        localStorage.setItem("name","Saisrinath");
+        localStorage.setItem("id","261");
+        localStorage.setItem("city","Hyderabad");
+        let person = ["xxx",8916,"Student"];
+        localStorage.setItem("list",person);
+        let student = {
+            name :"sai",
+            id : 2510030261
+        };
+          localStorage.setItem("student",JSON.stringify(student));
+        localStorage.removeItem("list");
+        localStorage.removeItem("name");
+        localStorage.removeItem("id");
+        localStorage.removeItem("city");
+        localStorage.removeItem("student");
+        let fruits=["apple","mago","orrange"];
+        localStorage.setItem("fruitList",JSON.stringify(fruits));
+        let storedFruits=JSON.parse(localStorage.getItem("fruitList"));
+        console.log(storedFruits);
+       
+
+
+    </script>
+</body>
+</html>

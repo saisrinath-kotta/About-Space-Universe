@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DTI Project - Sai Srinath</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        *{box-sizing:border-box;margin:0}
+
+        body{
+            font-family:'Poppins',sans-serif;
+            background:linear-gradient(135deg,#eef2ff,#f8fafc);
+            padding:40px 20px;
+            color:#1e293b;
+        }
+
+        .container{
+            max-width:1100px;
+            margin:auto;
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:8px;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:#64748b;
+            margin-bottom:30px;
+        }
+
+        /* ===== GALLERY GRID ===== */
+
+        .gallery{
+            display:grid;
+            grid-template-rows:repeat(auto-fit,minmax(260px,1fr));
+            gap:25px;
+        }
+
+        /* ===== IMAGE CARD ===== */
+
+        .img-card{
+            background:#fff;
+            padding:14px;
+            border-radius:14px;
+            box-shadow:0 8px 20px rgba(0,0,0,.08);
+            transition:.25s;
+        }
+
+        .img-card:hover{
+            transform:translateY(-6px);
+            box-shadow:0 16px 32px rgba(0,0,0,.15);
+        }
+
+        .img-card img{
+    width:50%;
+    height:300px;
+    border-radius:10px;
+    display: block;
+    margin: auto;
+}
+
+/* ===== VIDEO ===== */
+
+.video-title{
+  text-align:center;
+  margin:40px 0 15px;
+}
+
+.video-box{
+  max-width:800px;
+  margin:auto;
+  background:#fff;
+  padding:15px;
+  border-radius:14px;
+  box-shadow:0 8px 20px rgba(0,0,0,.1);
+}
+
+.video-box video{
+  width:100%;
+  border-radius:10px;
+}
+
+
+
+        .caption{
+            text-align:center;
+            margin-top:10px;
+            font-weight:600;
+            font-size:14px;
+        }
+
+        /* ===== BACK BUTTON ===== */
+
+        .back{
+            display:inline-block;
+            margin-bottom:25px;
+            padding:8px 16px;
+            background:#6366f1;
+            color:#fff;
+            text-decoration:none;
+            border-radius:8px;
+            font-size:14px;
+        }
+
+        .back:hover{background:#4f46e5}
+
+        @media(max-width:500px){
+            .img-card img{height:200px}
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <a href="index.html" class="back">← Back to Portfolio</a>
+
+    <h1>DTI Project Gallery 🚀</h1>
+    <p class="subtitle">Integrated Window Air Purification System</p>
+
+    <div class="gallery">
+
+        <!-- IMAGE 1 -->
+        <div class="img-card">
+            <img src="Product1_DTI.jpeg" alt="DTI Image 1" >
+            <div class="caption">Project View 1</div>
+        </div>
+
+        <!-- IMAGE 2 -->
+        <div class="img-card">
+            <img src="Product2_DTI.jpeg" alt="DTI Image 2">
+            <div class="caption">Project View 2</div>
+        </div>
+
+        <!-- IMAGE 3 -->
+        <div class="img-card">
+            <img src="Product3_DTI.jpeg" alt="DTI Image 3">
+            <div class="caption">Project View 3</div>
+        </div>
+
+        <!-- IMAGE 4 -->
+        <div class="img-card">
+            <img src="Product4_DTI.jpeg" alt="DTI Image 4">
+            <div class="caption">Project View 4</div>
+        </div>
+
+        <!-- IMAGE 5 -->
+        <div class="img-card">
+            <img src="Group_DTI.jpeg" alt="DTI Image 5">
+            <div class="caption">Project View 5</div>
+        </div>
+
+    </div>
+
+    <!-- ===== VIDEO SECTION ===== -->
+
+<h2 class="video-title">Project Demo 🎥</h2>
+
+<div class="video-box">
+    <video controls>
+        <source src="/PORTFOLIO/ProductVideo_DTI.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+
+</div>
+
+</body>
+</html>

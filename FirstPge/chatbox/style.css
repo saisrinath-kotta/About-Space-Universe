@@ -1,0 +1,38 @@
+.body-background{
+    background-color: antiquewhite;
+}
+.chat-box{
+    background-color: black;
+    margin: auto;
+    width: 500px;
+   
+}
+.heading{
+    text-align: center;
+    color: white;
+}
+.chatss{
+   background-color: rgb(42, 41, 41);
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    gap: 12px;
+}
+.sent{
+    background-color: rgb(72, 89, 164);
+    color: white;
+    border-radius: 20px 20px 0px 20px;
+   padding: 3px;
+    width: 300px;
+    align-self: flex-end;
+    
+}
+.recieved{
+    background-color: gray;
+    color: white;
+     border-radius: 20px 20px 20px 0px;
+    padding: 3px;
+     width: 300px;
+     align-self: flex-start;
+
+}

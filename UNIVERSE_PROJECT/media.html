@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Space Media — Universe Project</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold:     #c8a96e;
+      --gold-dim: #8a6f3f;
+      --white:    #f0ede8;
+      --dim:      #7a7570;
+      --bg:       #05060a;
+      --surface:  #0c0e15;
+      --surface2: #111320;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; cursor: default; }
+
+    /* STARFIELD */
+    #stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+    .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle var(--d) ease-in-out infinite alternate; }
+    @keyframes twinkle { from { opacity: var(--a); } to { opacity: 0.05; } }
+    .shoot { position: fixed; width: 140px; height: 1px; background: linear-gradient(90deg, transparent, rgba(200,169,110,0.8), transparent); opacity: 0; z-index: 0; animation: shoot var(--sd,6s) linear infinite; animation-delay: var(--sdel,0s); }
+    @keyframes shoot { 0%{opacity:0;transform:translate(var(--sx,0px),var(--sy,0px)) rotate(-25deg)} 5%{opacity:1} 30%{opacity:0;transform:translate(calc(var(--sx,0px) + 550px),calc(var(--sy,0px) + 280px)) rotate(-25deg)} 100%{opacity:0;transform:translate(calc(var(--sx,0px) + 550px),calc(var(--sy,0px) + 280px)) rotate(-25deg)} }
+
+    main { position: relative; z-index: 1; }
+
+    /* HERO */
+    .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem; position: relative; }
+    .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px; background: linear-gradient(to bottom, transparent, var(--bg)); }
+    .hero-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 6px; color: var(--gold); text-transform: uppercase; margin-bottom: 1.5rem; animation: fadeUp 1s ease both; }
+    .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem, 14vw, 11rem); line-height: 0.9; letter-spacing: 2px; background: linear-gradient(160deg, #fff 30%, #8a7a60); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: fadeUp 1s 0.15s ease both; }
+    .hero-sub { font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 300; color: var(--dim); margin-top: 1.5rem; max-width: 560px; line-height: 1.7; animation: fadeUp 1s 0.3s ease both; }
+    .scroll-hint { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; animation: fadeUp 1s 0.6s ease both; z-index: 2; }
+    .scroll-hint span { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 4px; color: var(--dim); text-transform: uppercase; }
+    .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollLine 2s ease-in-out infinite; }
+    @keyframes scrollLine { 0%,100%{transform:scaleY(1);opacity:1} 50%{transform:scaleY(0.4);opacity:0.3} }
+
+    /* SECTIONS */
+    section { padding: 7rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; margin-bottom: 0.75rem; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5rem); line-height: 1; color: var(--white); }
+    .divider { width: 60px; height: 1px; background: var(--gold); margin: 1.5rem 0 3.5rem; }
+    .section-intro { font-size: 14px; color: var(--dim); line-height: 1.8; max-width: 640px; margin-bottom: 3.5rem; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── VIDEO GRID ── */
+    .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .video-item:first-child { grid-column: span 2; }
+    .video-item { background: var(--surface); border: 1px solid rgba(200,169,110,0.12); border-radius: 2px; overflow: hidden; transition: border-color 0.3s, transform 0.3s; }
+    .video-item:hover { border-color: rgba(200,169,110,0.4); transform: translateY(-3px); }
+
+    .video-frame { position: relative; width: 100%; padding-top: 56.25%; background: var(--surface2); overflow: hidden; }
+    .video-frame iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; display: block; }
+
+    .video-info { padding: 1.1rem 1.25rem 1.3rem; position: relative; }
+    .video-info .glow-line { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); opacity: 0; transition: opacity 0.3s; }
+    .video-item:hover .glow-line { opacity: 1; }
+    .video-number { font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; color: var(--gold-dim); letter-spacing: 3px; margin-bottom: 4px; }
+    .video-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: 5px; line-height: 1.3; }
+    .video-desc { font-size: 12.5px; color: var(--dim); line-height: 1.6; }
+    .video-tag { display: inline-block; font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px; border: 1px solid rgba(200,169,110,0.2); color: var(--gold-dim); border-radius: 1px; margin-top: 8px; }
+
+    /* ── AUDIO GRID ── */
+    .audio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .audio-item { background: var(--surface); border: 1px solid rgba(200,169,110,0.1); border-radius: 2px; padding: 1.5rem 1.6rem; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 14px; transition: border-color 0.3s, transform 0.3s; }
+    .audio-item:hover { border-color: rgba(200,169,110,0.38); transform: translateY(-2px); }
+    .audio-item .glow-line { position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); opacity: 0; transition: opacity 0.3s; }
+    .audio-item:hover .glow-line { opacity: 1; }
+
+    .audio-header { display: flex; align-items: flex-start; gap: 14px; }
+    .audio-icon-wrap { width: 46px; height: 46px; flex-shrink: 0; background: var(--surface2); border: 1px solid rgba(200,169,110,0.18); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; transition: border-color 0.25s; }
+    .audio-item:hover .audio-icon-wrap { border-color: var(--gold); }
+    .audio-meta { flex: 1; }
+    .audio-number { font-family: 'Bebas Neue', sans-serif; font-size: 0.78rem; color: var(--gold-dim); letter-spacing: 3px; margin-bottom: 3px; }
+    .audio-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--white); line-height: 1.3; margin-bottom: 4px; }
+    .audio-subtitle { font-size: 12px; color: var(--dim); line-height: 1.5; }
+
+    .audio-player-wrap { width: 100%; }
+    .audio-player-wrap audio { width: 100%; outline: none; border-radius: 2px; accent-color: var(--gold); }
+
+    /* Waveform decoration */
+    .waveform { display: flex; align-items: center; gap: 3px; height: 28px; padding: 0 2px; }
+    .wave-bar { flex: 1; background: rgba(200,169,110,0.22); border-radius: 1px; transition: background 0.3s; animation: wavePulse var(--wd,1.2s) ease-in-out infinite alternate; }
+    .audio-item:hover .wave-bar { background: rgba(200,169,110,0.5); }
+    @keyframes wavePulse { from{transform:scaleY(0.3)} to{transform:scaleY(1)} }
+
+    .audio-tag { display: inline-block; font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px; border: 1px solid rgba(200,169,110,0.18); color: var(--gold-dim); border-radius: 1px; align-self: flex-start; }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 4rem 2rem; border-top: 1px solid rgba(255,255,255,0.06); color: var(--dim); font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; position: relative; z-index: 1; }
+
+    /* ── MEDIA QUERIES ── */
+    @media (max-width: 1024px) {
+      .video-grid { grid-template-columns: repeat(2, 1fr); }
+      .video-item:first-child { grid-column: span 2; }
+      section { padding: 5rem 2rem; }
+    }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: clamp(4rem, 16vw, 7rem); }
+      .video-grid { grid-template-columns: 1fr; }
+      .video-item:first-child { grid-column: span 1; }
+      .audio-grid { grid-template-columns: 1fr; }
+      section { padding: 4rem 1.5rem; }
+      .section-title { font-size: clamp(2.5rem, 8vw, 4rem); }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: clamp(3.5rem, 18vw, 6rem); }
+      section { padding: 3.5rem 1.25rem; }
+      .audio-item { padding: 1.25rem; }
+      .video-info { padding: 0.9rem 1rem 1.1rem; }
+    }
+    .home-link {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  color: var(--gold);
+  text-decoration: none;
+
+  padding: 6px 12px;
+  border: 1px solid rgba(200,169,110,0.3);
+  background: rgba(12,14,21,0.6);
+  backdrop-filter: blur(10px);
+
+  transition: all 0.25s ease;
+  z-index: 100;
+}
+
+.home-link:hover {
+  background: rgba(200,169,110,0.15);
+  border-color: var(--gold);
+  color: var(--white);
+}
+  </style>
+</head>
+<body>
+    <a href="index.html" class="home-link">⬅ Back to Home</a>
+
+<div id="stars">
+  <div class="shoot" style="--sx:-80px;--sy:40px;--sd:7s;--sdel:0s;top:8%;left:15%;"></div>
+  <div class="shoot" style="--sx:-50px;--sy:25px;--sd:10s;--sdel:3.5s;top:35%;left:55%;"></div>
+  <div class="shoot" style="--sx:-60px;--sy:50px;--sd:8s;--sdel:6s;top:65%;left:8%;"></div>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">Universe Project — Media Archive</p>
+    <h1>Sounds &amp;<br>Visions</h1>
+    <p class="hero-sub">Audio transmissions and visual records from the edge of the cosmos — documentaries, soundscapes, and recordings from humanity's greatest space missions.</p>
+    <div class="scroll-hint">
+      <span>Explore</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- ==================== VIDEOS ==================== -->
+  <section id="videos">
+    <p class="section-label">Visual Archive</p>
+    <h2 class="section-title">Space Documentaries<br>&amp; Mission Footage</h2>
+    <div class="divider"></div>
+    <p class="section-intro fade-in">Ten essential visual records from humanity's exploration of the cosmos — from the Apollo Moon landing to the deepest images ever captured of our universe.</p>
+
+    <div class="video-grid">
+
+      <!-- VIDEO 01 — Featured (spans 2 cols on desktop) -->
+      <div class="video-item fade-in">
+        <div class="video-frame">
+          <!-- Apollo 11 Moonwalk Highlights — NASA official -->
+          <iframe src="https://www.youtube.com/embed/hxPbnFc7iU8" title="Apollo 11 Moonwalk Highlights" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="glow-line"></div>
+          <div class="video-number">01 — Featured</div>
+          <div class="video-title">Apollo 11 — The Moon Landing</div>
+          <div class="video-desc">Historic footage from July 20, 1969 — humanity's first steps on the lunar surface. Neil Armstrong, Buzz Aldrin, and the moment that changed history forever.</div>
+          <span class="video-tag">Mission Footage</span>
+        </div>
+      </div>
+
+      <!-- VIDEO 02 -->
+      <div class="video-item fade-in">
+        <div class="video-frame">
+          <!-- Perseverance Mars Landing — NASA JPL official -->
+          <iframe src="https://www.youtube.com/embed/4czjS9h4Fpg" title="Perseverance Mars Rover Landing" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="glow-line"></div>
+          <div class="video-number">02</div>
+          <div class="video-title">Perseverance Rover — Mars Landing</div>
+          <div class="video-desc">First-ever video footage of a spacecraft landing on Mars, February 2021. Cameras on the rover and sky crane capture the "seven minutes of terror."</div>
+          <span class="video-tag">Mission Footage</span>
+        </div>
+      </div>
+
+      <!-- VIDEO 03 -->
+      <div class="video-item fade-in">
+        <div class="video-frame">
+          <!-- Hubble Deep Field explanation — ESA Hubble -->
+          <iframe src="https://www.youtube.com/embed/oAVjF_7ensg" title="Hubble Deep Field" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="glow-line"></div>
+          <div class="video-number">03</div>
+          <div class="video-title">The Hubble Deep Field</div>
+          <div class="video-desc">How pointing Hubble at a seemingly empty patch of sky for 10 days revealed over 10,000 galaxies and rewrote our understanding of the universe.</div>
+          <span class="video-tag">Documentary</span>
+        </div>
+      </div>
+
+      <!-- VIDEO 04 -->
+      <div class="video-item fade-in">
+        <div class="video-frame">
+          <!-- Black Holes Explained — Kurzgesagt -->
+          <iframe src="https://www.youtube.com/embed/e-P5IFTqB98" title="Black Holes Explained" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="glow-line"></div>
+          <div class="video-number">04</div>
+          <div class="video-title">Black Holes Explained</div>
+          <div class="video-desc">From stellar-mass black holes to supermassive giants at galactic centres — exploring the most extreme and mysterious objects in the known universe.</div>
+          <span class="video-tag">Science</span>
+        </div>
+      </div>
+
+      <!-- VIDEO 05 -->
+      <div class="video-item fade-in">
+        <div class="video-frame">
+          <!-- James Webb First Images — NASA -->
+          <iframe src="https://www.youtube.com/embed/oAVjF_7ensg" title="James Webb Space Telescope First Images" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="glow-line"></div>
+          <div class="video-number">05</div>
+          <div class="video-title">James Webb — First Images</div>
+          <div class="video-desc">NASA reveals the James Webb Space Telescope's first full-colour images — the deepest infrared view of the universe ever captured, peering back 13 billion years.</div>
+          <span class="video-tag">Discovery</span>
+        </div>
+      </div>
+
+      <!-- VIDEO 06 -->
+      <div class="video-item fade-in">
+        <div class="video-frame">
+          <!-- Cassini Grand Finale — NASA JPL -->
+          <iframe src="https://www.youtube.com/embed/xrGAQCq9BMU" title="Cassini Grand Finale Saturn" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="glow-line"></div>
+          <div class="video-number">06</div>
+          <div class="video-title">Cassini — Saturn Grand Finale</div>
+          <div class="video-desc">The Cassini spacecraft's final plunge into Saturn, ending a 13-year mission that revealed the ringed planet's moons, storms, and astonishing ring system in unprecedented detail.</div>
+          <span class="video-tag">Mission Footage</span>
+        </div>
+      </div>
+
+      <!-- VIDEO 07 -->
+      <div class="video-item fade-in">
+        <div class="video-frame">
+          <!-- The Big Bang — Kurzgesagt -->
+          <iframe src="https://www.youtube.com/embed/wNDGgL73ihY" title="The Big Bang" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="glow-line"></div>
+          <div class="video-number">07</div>
+          <div class="video-title">The Big Bang — Origin of Everything</div>
+          <div class="video-desc">Tracing the universe from the very first microsecond of existence through to the formation of galaxies, stars, planets, and life itself.</div>
+          <span class="video-tag">Cosmology</span>
+        </div>
+      </div>
+
+      <!-- VIDEO 08 -->
+      <div class="video-item fade-in">
+        <div class="video-frame">
+          <!-- Life on the ISS — NASA -->
+          <iframe src="https://www.youtube.com/embed/xrGAQCq9BMU" title="Life on the International Space Station" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="glow-line"></div>
+          <div class="video-number">08</div>
+          <div class="video-title">Life on the ISS</div>
+          <div class="video-desc">A day in the life aboard the International Space Station — how astronauts eat, sleep, exercise, and conduct groundbreaking science 400 km above Earth.</div>
+          <span class="video-tag">Space Station</span>
+        </div>
+      </div>
+
+      <!-- VIDEO 09 -->
+      <div class="video-item fade-in">
+        <div class="video-frame">
+          <!-- Voyager — NASA -->
+          <iframe src="https://www.youtube.com/embed/wNDGgL73ihY" title="Voyager Journey to the Stars" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="glow-line"></div>
+          <div class="video-number">09</div>
+          <div class="video-title">Voyager — Journey to Interstellar Space</div>
+          <div class="video-desc">Voyager 1 and 2 — launched in 1977 — now travel beyond our solar system, carrying the Golden Record and humanity's first message to the stars.</div>
+          <span class="video-tag">Deep Space</span>
+        </div>
+      </div>
+
+      <!-- VIDEO 10 -->
+      <div class="video-item fade-in">
+        <div class="video-frame">
+          <!-- Exoplanets — Kurzgesagt -->
+          <iframe src="https://www.youtube.com/embed/EUU0-ZpFoK4" title="Exoplanets Worlds Beyond Our Solar System" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="glow-line"></div>
+          <div class="video-number">10</div>
+          <div class="video-title">Exoplanets — Worlds Beyond</div>
+          <div class="video-desc">Over 5,700 confirmed planets orbiting other stars. Some sit in habitable zones where liquid water could exist on the surface. Are we alone?</div>
+          <span class="video-tag">Exoplanets</span>
+        </div>
+      </div>
+
+    </div><!-- /video-grid -->
+  </section>
+
+  <!-- ==================== AUDIO ==================== -->
+  <section id="audio">
+    <p class="section-label">Audio Archive</p>
+    <h2 class="section-title">Sounds of<br>the Cosmos</h2>
+    <div class="divider"></div>
+    <p class="section-intro fade-in">Ten extraordinary recordings — from NASA mission transmissions and planetary radio emissions to the converted soundscapes of black holes and distant stars.</p>
+
+    <div class="audio-grid">
+
+      <!-- AUDIO 01 — Apollo 11 "Eagle Has Landed" -->
+      <div class="audio-item fade-in">
+        <div class="audio-header">
+          <div class="audio-icon-wrap">🎙️</div>
+          <div class="audio-meta">
+            <div class="audio-number">01</div>
+            <div class="audio-title">Apollo 11 — "The Eagle Has Landed"</div>
+            <div class="audio-subtitle">Neil Armstrong's historic transmission to Mission Control at 4:17 PM EDT, July 20, 1969.</div>
+          </div>
+        </div>
+        <div class="audio-player-wrap">
+          <audio controls>
+            <source src="diff_style-the-galaxy-sings-15-12-5-463693.mp3" type="audio/mpeg"/>
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div class="waveform" aria-hidden="true">
+          <div class="wave-bar" style="height:40%;--wd:0.9s"></div><div class="wave-bar" style="height:70%;--wd:1.1s"></div><div class="wave-bar" style="height:55%;--wd:0.8s"></div><div class="wave-bar" style="height:90%;--wd:1.3s"></div><div class="wave-bar" style="height:45%;--wd:1.0s"></div><div class="wave-bar" style="height:80%;--wd:0.7s"></div><div class="wave-bar" style="height:60%;--wd:1.2s"></div><div class="wave-bar" style="height:35%;--wd:0.9s"></div><div class="wave-bar" style="height:75%;--wd:1.1s"></div><div class="wave-bar" style="height:50%;--wd:0.8s"></div><div class="wave-bar" style="height:85%;--wd:1.4s"></div><div class="wave-bar" style="height:40%;--wd:1.0s"></div><div class="wave-bar" style="height:65%;--wd:0.9s"></div><div class="wave-bar" style="height:90%;--wd:1.2s"></div><div class="wave-bar" style="height:55%;--wd:0.7s"></div><div class="wave-bar" style="height:70%;--wd:1.1s"></div>
+        </div>
+        <span class="audio-tag">Mission Transmission</span>
+        <div class="glow-line"></div>
+      </div>
+
+      <!-- AUDIO 02 — Saturn Radio Emissions -->
+      <div class="audio-item fade-in">
+        <div class="audio-header">
+          <div class="audio-icon-wrap">🪐</div>
+          <div class="audio-meta">
+            <div class="audio-number">02</div>
+            <div class="audio-title">Saturn's Radio Emissions</div>
+            <div class="audio-subtitle">NASA converted Saturn's magnetospheric radio waves into eerie, pulsating audio — captured by the Cassini spacecraft.</div>
+          </div>
+        </div>
+        <div class="audio-player-wrap">
+          <audio controls>
+            <source src="eathsound.mp3" type="audio/mpeg"/>
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div class="waveform" aria-hidden="true">
+          <div class="wave-bar" style="height:60%;--wd:1.1s"></div><div class="wave-bar" style="height:40%;--wd:0.9s"></div><div class="wave-bar" style="height:80%;--wd:1.3s"></div><div class="wave-bar" style="height:55%;--wd:0.8s"></div><div class="wave-bar" style="height:90%;--wd:1.0s"></div><div class="wave-bar" style="height:45%;--wd:1.2s"></div><div class="wave-bar" style="height:70%;--wd:0.7s"></div><div class="wave-bar" style="height:85%;--wd:1.1s"></div><div class="wave-bar" style="height:50%;--wd:0.9s"></div><div class="wave-bar" style="height:65%;--wd:1.4s"></div><div class="wave-bar" style="height:35%;--wd:1.0s"></div><div class="wave-bar" style="height:75%;--wd:0.8s"></div><div class="wave-bar" style="height:90%;--wd:1.2s"></div><div class="wave-bar" style="height:55%;--wd:0.9s"></div><div class="wave-bar" style="height:40%;--wd:1.1s"></div><div class="wave-bar" style="height:70%;--wd:0.7s"></div>
+        </div>
+        <span class="audio-tag">Planetary Sounds</span>
+        <div class="glow-line"></div>
+      </div>
+
+      <!-- AUDIO 03 — Martian Wind -->
+      <div class="audio-item fade-in">
+        <div class="audio-header">
+          <div class="audio-icon-wrap">🔴</div>
+          <div class="audio-meta">
+            <div class="audio-number">03</div>
+            <div class="audio-title">Martian Wind — InSight Lander</div>
+            <div class="audio-subtitle">The first sounds ever recorded on Mars — InSight's seismometer detecting the low rumble of wind on the Martian surface, December 2018.</div>
+          </div>
+        </div>
+        <div class="audio-player-wrap">
+          <audio controls>
+            <source src="eathsound.mp3" type="audio/mpeg"/>
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div class="waveform" aria-hidden="true">
+          <div class="wave-bar" style="height:50%;--wd:0.8s"></div><div class="wave-bar" style="height:85%;--wd:1.2s"></div><div class="wave-bar" style="height:40%;--wd:1.0s"></div><div class="wave-bar" style="height:70%;--wd:0.9s"></div><div class="wave-bar" style="height:90%;--wd:1.3s"></div><div class="wave-bar" style="height:55%;--wd:0.7s"></div><div class="wave-bar" style="height:75%;--wd:1.1s"></div><div class="wave-bar" style="height:40%;--wd:1.4s"></div><div class="wave-bar" style="height:65%;--wd:0.8s"></div><div class="wave-bar" style="height:80%;--wd:1.0s"></div><div class="wave-bar" style="height:45%;--wd:1.2s"></div><div class="wave-bar" style="height:60%;--wd:0.9s"></div><div class="wave-bar" style="height:85%;--wd:0.7s"></div><div class="wave-bar" style="height:35%;--wd:1.1s"></div><div class="wave-bar" style="height:70%;--wd:1.3s"></div><div class="wave-bar" style="height:50%;--wd:0.8s"></div>
+        </div>
+        <span class="audio-tag">Mars Recording</span>
+        <div class="glow-line"></div>
+      </div>
+
+      <!-- AUDIO 04 — Black Hole Sonification -->
+      <div class="audio-item fade-in">
+        <div class="audio-header">
+          <div class="audio-icon-wrap">🌌</div>
+          <div class="audio-meta">
+            <div class="audio-number">04</div>
+            <div class="audio-title">Black Hole — Perseus Cluster</div>
+            <div class="audio-subtitle">NASA sonification of pressure waves from a supermassive black hole, pitched up 57 octaves to become audible to human ears.</div>
+          </div>
+        </div>
+        <div class="audio-player-wrap">
+          <audio controls>
+            <source src="eathsound.mp3" type="audio/mpeg"/>
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div class="waveform" aria-hidden="true">
+          <div class="wave-bar" style="height:80%;--wd:1.0s"></div><div class="wave-bar" style="height:45%;--wd:0.8s"></div><div class="wave-bar" style="height:65%;--wd:1.2s"></div><div class="wave-bar" style="height:90%;--wd:0.9s"></div><div class="wave-bar" style="height:35%;--wd:1.1s"></div><div class="wave-bar" style="height:75%;--wd:0.7s"></div><div class="wave-bar" style="height:55%;--wd:1.3s"></div><div class="wave-bar" style="height:85%;--wd:1.0s"></div><div class="wave-bar" style="height:40%;--wd:0.9s"></div><div class="wave-bar" style="height:70%;--wd:1.2s"></div><div class="wave-bar" style="height:90%;--wd:0.8s"></div><div class="wave-bar" style="height:50%;--wd:1.1s"></div><div class="wave-bar" style="height:60%;--wd:0.7s"></div><div class="wave-bar" style="height:80%;--wd:1.4s"></div><div class="wave-bar" style="height:45%;--wd:1.0s"></div><div class="wave-bar" style="height:65%;--wd:0.9s"></div>
+        </div>
+        <span class="audio-tag">NASA Sonification</span>
+        <div class="glow-line"></div>
+      </div>
+
+      <!-- AUDIO 05 — Jupiter Magnetosphere -->
+      <div class="audio-item fade-in">
+        <div class="audio-header">
+          <div class="audio-icon-wrap">⚡</div>
+          <div class="audio-meta">
+            <div class="audio-number">05</div>
+            <div class="audio-title">Jupiter's Magnetosphere — Juno</div>
+            <div class="audio-subtitle">Radio emissions from Jupiter's powerful magnetic field recorded by the Juno spacecraft as it crossed the boundary into Jupiter's magnetosphere.</div>
+          </div>
+        </div>
+        <div class="audio-player-wrap">
+          <audio controls>
+            <source src="eathsound.mp3" type="audio/mpeg"/>
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div class="waveform" aria-hidden="true">
+          <div class="wave-bar" style="height:35%;--wd:1.2s"></div><div class="wave-bar" style="height:60%;--wd:0.9s"></div><div class="wave-bar" style="height:80%;--wd:1.0s"></div><div class="wave-bar" style="height:45%;--wd:0.8s"></div><div class="wave-bar" style="height:70%;--wd:1.3s"></div><div class="wave-bar" style="height:90%;--wd:0.7s"></div><div class="wave-bar" style="height:55%;--wd:1.1s"></div><div class="wave-bar" style="height:40%;--wd:1.0s"></div><div class="wave-bar" style="height:75%;--wd:0.9s"></div><div class="wave-bar" style="height:85%;--wd:1.2s"></div><div class="wave-bar" style="height:50%;--wd:0.8s"></div><div class="wave-bar" style="height:65%;--wd:1.4s"></div><div class="wave-bar" style="height:90%;--wd:1.1s"></div><div class="wave-bar" style="height:40%;--wd:0.7s"></div><div class="wave-bar" style="height:55%;--wd:1.3s"></div><div class="wave-bar" style="height:70%;--wd:0.9s"></div>
+        </div>
+        <span class="audio-tag">Planetary Sounds</span>
+        <div class="glow-line"></div>
+      </div>
+
+      <!-- AUDIO 06 — The Sun -->
+      <div class="audio-item fade-in">
+        <div class="audio-header">
+          <div class="audio-icon-wrap">☀️</div>
+          <div class="audio-meta">
+            <div class="audio-number">06</div>
+            <div class="audio-title">The Sun — Solar Oscillations</div>
+            <div class="audio-subtitle">NASA's Solar Dynamics Observatory converted the Sun's pressure wave oscillations into sound — a deep, resonant hum from our own star.</div>
+          </div>
+        </div>
+        <div class="audio-player-wrap">
+          <audio controls>
+            <source src="eathsound.mp3" type="audio/mpeg"/>
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div class="waveform" aria-hidden="true">
+          <div class="wave-bar" style="height:70%;--wd:1.1s"></div><div class="wave-bar" style="height:50%;--wd:0.8s"></div><div class="wave-bar" style="height:85%;--wd:1.3s"></div><div class="wave-bar" style="height:40%;--wd:1.0s"></div><div class="wave-bar" style="height:65%;--wd:0.9s"></div><div class="wave-bar" style="height:90%;--wd:1.2s"></div><div class="wave-bar" style="height:45%;--wd:0.7s"></div><div class="wave-bar" style="height:75%;--wd:1.1s"></div><div class="wave-bar" style="height:55%;--wd:1.4s"></div><div class="wave-bar" style="height:80%;--wd:0.8s"></div><div class="wave-bar" style="height:35%;--wd:1.0s"></div><div class="wave-bar" style="height:70%;--wd:1.2s"></div><div class="wave-bar" style="height:90%;--wd:0.9s"></div><div class="wave-bar" style="height:50%;--wd:0.7s"></div><div class="wave-bar" style="height:60%;--wd:1.3s"></div><div class="wave-bar" style="height:80%;--wd:1.1s"></div>
+        </div>
+        <span class="audio-tag">Solar Data</span>
+        <div class="glow-line"></div>
+      </div>
+
+      <!-- AUDIO 07 — Moonquake -->
+      <div class="audio-item fade-in">
+        <div class="audio-header">
+          <div class="audio-icon-wrap">🌙</div>
+          <div class="audio-meta">
+            <div class="audio-number">07</div>
+            <div class="audio-title">Moonquake — Apollo Seismic Data</div>
+            <div class="audio-subtitle">Audio converted from seismometer readings taken by instruments left on the lunar surface during Apollo missions. The Moon rings like a bell.</div>
+          </div>
+        </div>
+        <div class="audio-player-wrap">
+          <audio controls>
+            <source src="eathsound.mp3" type="audio/mpeg"/>
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div class="waveform" aria-hidden="true">
+          <div class="wave-bar" style="height:45%;--wd:1.0s"></div><div class="wave-bar" style="height:65%;--wd:1.2s"></div><div class="wave-bar" style="height:85%;--wd:0.8s"></div><div class="wave-bar" style="height:50%;--wd:1.1s"></div><div class="wave-bar" style="height:75%;--wd:0.9s"></div><div class="wave-bar" style="height:35%;--wd:1.3s"></div><div class="wave-bar" style="height:90%;--wd:0.7s"></div><div class="wave-bar" style="height:60%;--wd:1.0s"></div><div class="wave-bar" style="height:40%;--wd:1.2s"></div><div class="wave-bar" style="height:80%;--wd:0.9s"></div><div class="wave-bar" style="height:55%;--wd:1.4s"></div><div class="wave-bar" style="height:70%;--wd:0.8s"></div><div class="wave-bar" style="height:85%;--wd:1.1s"></div><div class="wave-bar" style="height:45%;--wd:1.0s"></div><div class="wave-bar" style="height:65%;--wd:0.7s"></div><div class="wave-bar" style="height:90%;--wd:1.2s"></div>
+        </div>
+        <span class="audio-tag">Seismic Data</span>
+        <div class="glow-line"></div>
+      </div>
+
+      <!-- AUDIO 08 — Pulsar -->
+      <div class="audio-item fade-in">
+        <div class="audio-header">
+          <div class="audio-icon-wrap">💫</div>
+          <div class="audio-meta">
+            <div class="audio-number">08</div>
+            <div class="audio-title">Pulsar — Cosmic Heartbeat</div>
+            <div class="audio-subtitle">The rhythmic pulse of a neutron star spinning hundreds of times per second — one of the most precise natural clocks in the universe.</div>
+          </div>
+        </div>
+        <div class="audio-player-wrap">
+          <audio controls>
+            <source src="eathsound.mp3" type="audio/mpeg"/>
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div class="waveform" aria-hidden="true">
+          <div class="wave-bar" style="height:75%;--wd:0.8s"></div><div class="wave-bar" style="height:40%;--wd:1.1s"></div><div class="wave-bar" style="height:60%;--wd:1.3s"></div><div class="wave-bar" style="height:90%;--wd:0.9s"></div><div class="wave-bar" style="height:50%;--wd:1.0s"></div><div class="wave-bar" style="height:80%;--wd:0.7s"></div><div class="wave-bar" style="height:35%;--wd:1.2s"></div><div class="wave-bar" style="height:70%;--wd:1.1s"></div><div class="wave-bar" style="height:85%;--wd:0.8s"></div><div class="wave-bar" style="height:55%;--wd:1.4s"></div><div class="wave-bar" style="height:65%;--wd:1.0s"></div><div class="wave-bar" style="height:45%;--wd:0.9s"></div><div class="wave-bar" style="height:90%;--wd:1.2s"></div><div class="wave-bar" style="height:60%;--wd:0.7s"></div><div class="wave-bar" style="height:40%;--wd:1.3s"></div><div class="wave-bar" style="height:75%;--wd:1.0s"></div>
+        </div>
+        <span class="audio-tag">Neutron Star</span>
+        <div class="glow-line"></div>
+      </div>
+
+      <!-- AUDIO 09 — Cosmic Microwave Background -->
+      <div class="audio-item fade-in">
+        <div class="audio-header">
+          <div class="audio-icon-wrap">🌠</div>
+          <div class="audio-meta">
+            <div class="audio-number">09</div>
+            <div class="audio-title">Cosmic Microwave Background</div>
+            <div class="audio-subtitle">The echo of the Big Bang — faint microwave radiation filling all of space, captured by the Planck telescope and converted to sound.</div>
+          </div>
+        </div>
+        <div class="audio-player-wrap">
+          <audio controls>
+            <source src="eathsound.mp3" type="audio/mpeg"/>
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div class="waveform" aria-hidden="true">
+          <div class="wave-bar" style="height:60%;--wd:1.2s"></div><div class="wave-bar" style="height:85%;--wd:0.9s"></div><div class="wave-bar" style="height:45%;--wd:1.0s"></div><div class="wave-bar" style="height:70%;--wd:0.8s"></div><div class="wave-bar" style="height:90%;--wd:1.3s"></div><div class="wave-bar" style="height:55%;--wd:1.1s"></div><div class="wave-bar" style="height:40%;--wd:0.7s"></div><div class="wave-bar" style="height:75%;--wd:1.0s"></div><div class="wave-bar" style="height:85%;--wd:0.9s"></div><div class="wave-bar" style="height:50%;--wd:1.2s"></div><div class="wave-bar" style="height:65%;--wd:0.8s"></div><div class="wave-bar" style="height:90%;--wd:1.4s"></div><div class="wave-bar" style="height:35%;--wd:1.1s"></div><div class="wave-bar" style="height:70%;--wd:0.7s"></div><div class="wave-bar" style="height:55%;--wd:1.3s"></div><div class="wave-bar" style="height:80%;--wd:0.9s"></div>
+        </div>
+        <span class="audio-tag">Big Bang Echo</span>
+        <div class="glow-line"></div>
+      </div>
+
+      <!-- AUDIO 10 — Sounds of Earth Golden Record -->
+      <div class="audio-item fade-in">
+        <div class="audio-header">
+          <div class="audio-icon-wrap">🌍</div>
+          <div class="audio-meta">
+            <div class="audio-number">10</div>
+            <div class="audio-title">Sounds of Earth — Golden Record</div>
+            <div class="audio-subtitle">Natural sounds and music sent aboard Voyager 1 in 1977 as a message to any civilisation that discovers the spacecraft in the distant future.</div>
+          </div>
+        </div>
+        <div class="audio-player-wrap">
+          <audio controls>
+            <source src="eathsound.mp3" type="audio/mpeg"/>
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div class="waveform" aria-hidden="true">
+          <div class="wave-bar" style="height:55%;--wd:0.9s"></div><div class="wave-bar" style="height:80%;--wd:1.1s"></div><div class="wave-bar" style="height:40%;--wd:0.8s"></div><div class="wave-bar" style="height:70%;--wd:1.3s"></div><div class="wave-bar" style="height:90%;--wd:1.0s"></div><div class="wave-bar" style="height:50%;--wd:0.7s"></div><div class="wave-bar" style="height:65%;--wd:1.2s"></div><div class="wave-bar" style="height:35%;--wd:0.9s"></div><div class="wave-bar" style="height:85%;--wd:1.4s"></div><div class="wave-bar" style="height:55%;--wd:1.1s"></div><div class="wave-bar" style="height:75%;--wd:0.8s"></div><div class="wave-bar" style="height:40%;--wd:1.0s"></div><div class="wave-bar" style="height:60%;--wd:1.2s"></div><div class="wave-bar" style="height:90%;--wd:0.7s"></div><div class="wave-bar" style="height:45%;--wd:0.9s"></div><div class="wave-bar" style="height:70%;--wd:1.3s"></div>
+        </div>
+        <span class="audio-tag">Deep Space</span>
+        <div class="glow-line"></div>
+      </div>
+
+    </div><!-- /audio-grid -->
+  </section>
+
+</main>
+
+<footer>
+  🌌 &nbsp;Universe Project &nbsp;·&nbsp; Space Media Archive &nbsp;·&nbsp; Sounds &amp; Visions of the Cosmos
+</footer>
+
+<script>
+/* ── STARFIELD ── */
+(function(){
+  const sf=document.getElementById('stars');
+  for(let i=0;i<200;i++){
+    const s=document.createElement('div'); s.className='star';
+    const sz=Math.random()*2.2+0.4;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${(Math.random()*4+2).toFixed(1)}s;--a:${(Math.random()*.55+.15).toFixed(2)};animation-delay:${(Math.random()*5).toFixed(1)}s;`;
+    sf.appendChild(s);
+  }
+})();
+
+/* ── SCROLL FADE-IN ── */
+(function(){
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  },{threshold:0.08});
+  document.querySelectorAll('.fade-in').forEach((el,i)=>{
+    el.style.transitionDelay=(i%4)*0.1+'s';
+    observer.observe(el);
+  });
+})();
+</script>
+</body>
+</html>

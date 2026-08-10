@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unifexy Auth</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle, #020617, #000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: white;
+}
+
+/* BOX */
+.container {
+  background: rgba(10, 10, 30, 0.9);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(168,85,247,0.5);
+  width: 300px;
+}
+
+h2 {
+  color: #a855f7;
+  margin-bottom: 20px;
+}
+
+input, select {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  background: #a855f7;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="loginBox">
+  <h2>Login</h2>
+  <input type="text" placeholder="Enter Name" id="username">
+  <input type="password" placeholder="Enter Password">
+  <button onclick="login()">Next</button>
+</div>
+
+<div class="container" id="profileBox" style="display:none;">
+  <h2>Create Profile</h2>
+
+  <input type="text" placeholder="Full Name" id="fullname">
+  <input type="text" placeholder="Username" id="userhandle">
+
+  <select id="interest">
+    <option>Select Interest</option>
+    <option>Planets</option>
+    <option>Galaxies</option>
+    <option>Astronomy</option>
+    <option>Space Missions</option>
+  </select>
+
+  <button onclick="createProfile()">Enter Universe 🚀</button>
+</div>
+
+<script>
+function login() {
+  let name = document.getElementById("username").value;
+
+  if (name.trim() === "") {
+    alert("Enter your name");
+    return;
+  }
+
+  localStorage.setItem("loggedIn", "true");
+
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("profileBox").style.display = "block";
+}
+
+function createProfile() {
+  let name = document.getElementById("fullname").value;
+  let username = document.getElementById("userhandle").value;
+  let interest = document.getElementById("interest").value;
+
+  if (name === "" || username === "") {
+    alert("Fill all details");
+    return;
+  }
+
+  localStorage.setItem("name", name);
+  localStorage.setItem("username", username);
+  localStorage.setItem("interest", interest);
+  localStorage.setItem("userCreated", "true");
+
+  // 🔥 redirect to main website
+  window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
